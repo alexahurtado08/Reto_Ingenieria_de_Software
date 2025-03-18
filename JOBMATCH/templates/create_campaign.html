@@ -1,0 +1,153 @@
+{% load static %}
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Crear Campaña - JobMatch AI</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.30.0/tabler-icons.min.css"
+    />
+    <link rel="stylesheet" href="{% static 'dashboard/css/styles.css' %}">
+  </head>
+  <body>
+    <div class="dashboard-container">
+      <nav class="sidebar">
+        <!-- Sidebar con mejor acceso a las opciones -->
+        <div class="logo-container">
+          <img
+            src="https://placehold.co/32x32/4318D1/4318D1"
+            alt="Logo JobMatch AI"
+            class="logo-image"
+          />
+          <h1 class="logo-text">JOBMATCH AI</h1>
+        </div>
+        <ul class="nav-menu">
+          <li class="nav-item">
+            <a href="{% url 'dashboard' %}" class="nav-link">
+              <i class="ti ti-layout-dashboard"></i>
+              <span class="nav-text">Panel</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="#" class="nav-link">
+              <i class="ti ti-activity"></i>
+              <span class="nav-text">Campañas Activas</span>
+            </a>
+          </li>
+          <li class="nav-item active">
+            <a href="{% url 'create_campaign' %}" class="nav-link">
+              <i class="ti ti-plus"></i>
+              <span class="nav-text">Crear Campaña</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="#" class="nav-link">
+              <i class="ti ti-settings"></i>
+              <span class="nav-text">Configuración</span>
+            </a>
+          </li>
+        </ul>
+        <div class="logout-container">
+          <i class="ti ti-logout"></i>
+          <span class="nav-text">Cerrar Sesión</span>
+        </div>
+      </nav>
+
+      <main class="main-content">
+        <header class="main-header">
+          <div class="welcome-container">
+            <h2 class="welcome-heading">Nueva Campaña Publicitaria</h2>
+          </div>
+        </header>
+
+        <section class="campaign-form">
+          <form class="campaign-form-container">
+            <div class="form-group">
+              <label class="form-label">Nombre de la Campaña</label>
+              <input type="text" class="form-input" placeholder="Ej: Campaña de Verano 2024" required>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Plataformas</label>
+              <div class="platform-selector">
+                <label class="platform-option">
+                  <input type="checkbox" name="platform" value="facebook">
+                  <i class="ti ti-brand-facebook"></i>
+                  Facebook
+                </label>
+                <label class="platform-option">
+                  <input type="checkbox" name="platform" value="instagram">
+                  <i class="ti ti-brand-instagram"></i>
+                  Instagram
+                </label>
+                <label class="platform-option">
+                  <input type="checkbox" name="platform" value="tiktok">
+                  <i class="ti ti-brand-tiktok"></i>
+                  TikTok
+                </label>
+              </div>
+            </div>
+
+            <div class="grid-2col">
+              <div class="form-group">
+                <label class="form-label">Presupuesto</label>
+                <input type="number" class="form-input" placeholder="$0.00" required>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Programación</label>
+                <input type="datetime-local" class="form-input" required>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Contenido del Anuncio</label>
+              <textarea class="form-textarea" rows="5" placeholder="Escribe tu anuncio..." required></textarea>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Subir Multimedia</label>
+              <div class="file-upload">
+                <input type="file" id="media-upload" hidden>
+                <label for="media-upload" class="btn-upload">
+                  <i class="ti ti-upload"></i>
+                  Seleccionar Archivos
+                </label>
+                <span class="file-names">No se seleccionaron archivos</span>
+              </div>
+            </div>
+
+            <div class="form-actions">
+              <button type="submit" class="btn-primary">
+                <i class="ti ti-device-floppy"></i>
+                Guardar Campaña
+              </button>
+              <button type="button" class="btn-secondary">
+                Cancelar
+              </button>
+            </div>
+          </form>
+        </section>
+      </main>
+    </div>
+
+    <script>
+      // Script para manejar la subida de archivos
+      document.getElementById('media-upload').addEventListener('change', function(e) {
+        const files = e.target.files;
+        const fileNameContainer = document.querySelector('.file-names');
+        
+        if(files.length > 0) {
+          fileNameContainer.textContent = `${files.length} archivo(s) seleccionado(s)`;
+        } else {
+          fileNameContainer.textContent = 'No se seleccionaron archivos';
+        }
+      });
+    </script>
+  </body>
+</html>
