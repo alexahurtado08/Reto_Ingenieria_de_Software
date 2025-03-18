@@ -53,6 +53,5 @@ Este proyecto tiene como objetivo simplificar la tarea de crear y publicar anunc
 2. **Crear campaña**: Accede a la sección "Crear Campaña" para configurar los anuncios. Puedes seleccionar las plataformas donde deseas publicar, definir el presupuesto y subir contenido multimedia.
 3. **Administrar campañas activas**: Visualiza las campañas en curso y realiza ajustes según sea necesario.
 
-## Licencia
-
-Este proyecto está bajo la Licencia MIT - consulta el archivo [LICENSE](LICENSE) para más detalles.
+## Uso no comercial  
+Este software está disponible para uso académico.
