@@ -18,7 +18,6 @@
   <body>
     <div class="dashboard-container">
       <nav class="sidebar">
-        <!-- Sidebar con mejor acceso a las opciones -->
         <div class="logo-container">
           <img
             src="https://placehold.co/32x32/4318D1/4318D1"
@@ -28,16 +27,22 @@
           <h1 class="logo-text">JOBMATCH AI</h1>
         </div>
         <ul class="nav-menu">
-          <li class="nav-item">
+          <li class="nav-item {% if active_page == 'dashboard' %}active{% endif %}">
             <a href="{% url 'dashboard' %}" class="nav-link">
               <i class="ti ti-layout-dashboard"></i>
               <span class="nav-text">Panel</span>
             </a>
           </li>
-          <li class="nav-item">
+          <li class="nav-item {% if active_page == 'campañas' %}active{% endif %}">
             <a href="#" class="nav-link">
               <i class="ti ti-activity"></i>
               <span class="nav-text">Campañas Activas</span>
+            </a>
+          </li>
+          <li class="nav-item {% if active_page == 'vacante' %}active{% endif %}">
+            <a href="{% url 'vacante' %}" class="nav-link">
+              <i class="ti ti-briefcase"></i>
+              <span class="nav-text">Vacante</span>
             </a>
           </li>
           <li class="nav-item active">
@@ -46,7 +51,7 @@
               <span class="nav-text">Crear Campaña</span>
             </a>
           </li>
-          <li class="nav-item">
+          <li class="nav-item {% if active_page == 'configuracion' %}active{% endif %}">
             <a href="#" class="nav-link">
               <i class="ti ti-settings"></i>
               <span class="nav-text">Configuración</span>
@@ -60,34 +65,58 @@
       </nav>
 
       <main class="main-content">
+        {% if messages %}
+        <div class="alert-container">
+            {% for message in messages %}
+            <div class="alert {% if message.tags %}alert-{{ message.tags }}{% endif %}">
+                {{ message }}
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+        
         <header class="main-header">
           <div class="welcome-container">
             <h2 class="welcome-heading">Nueva Campaña Publicitaria</h2>
+            {% if initial_data.title %}
+            <p class="campaign-source">
+              Creando desde vacante: <strong>{{ initial_data.title }}</strong>
+            </p>
+            {% endif %}
           </div>
         </header>
 
         <section class="campaign-form">
-          <form class="campaign-form-container">
+          <form class="campaign-form-container" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            
             <div class="form-group">
               <label class="form-label">Nombre de la Campaña</label>
-              <input type="text" class="form-input" placeholder="Ej: Campaña de Verano 2024" required>
+              <input 
+                type="text" 
+                name="campaign_name" 
+                class="form-input" 
+                value="{{ initial_data.title|default:'' }}"
+                placeholder="Ej: Campaña de Contratación Developers" 
+                required
+              >
             </div>
 
             <div class="form-group">
               <label class="form-label">Plataformas</label>
               <div class="platform-selector">
                 <label class="platform-option">
-                  <input type="checkbox" name="platform" value="facebook">
+                  <input type="checkbox" name="platforms" value="facebook">
                   <i class="ti ti-brand-facebook"></i>
                   Facebook
                 </label>
                 <label class="platform-option">
-                  <input type="checkbox" name="platform" value="instagram">
+                  <input type="checkbox" name="platforms" value="instagram">
                   <i class="ti ti-brand-instagram"></i>
                   Instagram
                 </label>
                 <label class="platform-option">
-                  <input type="checkbox" name="platform" value="tiktok">
+                  <input type="checkbox" name="platforms" value="tiktok">
                   <i class="ti ti-brand-tiktok"></i>
                   TikTok
                 </label>
@@ -96,27 +125,53 @@
 
             <div class="grid-2col">
               <div class="form-group">
-                <label class="form-label">Presupuesto</label>
-                <input type="number" class="form-input" placeholder="$0.00" required>
+                <label class="form-label">Presupuesto (USD)</label>
+                <input 
+                  type="number" 
+                  name="budget" 
+                  class="form-input" 
+                  placeholder="$0.00" 
+                  min="50" 
+                  step="50" 
+                  required
+                >
               </div>
               <div class="form-group">
                 <label class="form-label">Programación</label>
-                <input type="datetime-local" class="form-input" required>
+                <input 
+                  type="datetime-local" 
+                  name="schedule" 
+                  class="form-input" 
+                  required
+                >
               </div>
             </div>
 
             <div class="form-group">
               <label class="form-label">Contenido del Anuncio</label>
-              <textarea class="form-textarea" rows="5" placeholder="Escribe tu anuncio..." required></textarea>
+              <textarea 
+                class="form-textarea" 
+                name="ad_content" 
+                rows="6" 
+                placeholder="Escribe tu anuncio..." 
+                required
+              >{{ initial_data.description|default:'' }}</textarea>
             </div>
 
             <div class="form-group">
-              <label class="form-label">Subir Multimedia</label>
+              <label class="form-label">Multimedia del Anuncio</label>
               <div class="file-upload">
-                <input type="file" id="media-upload" hidden>
+                <input 
+                  type="file" 
+                  id="media-upload" 
+                  name="media_files" 
+                  hidden 
+                  multiple
+                  accept="image/*, video/*"
+                >
                 <label for="media-upload" class="btn-upload">
                   <i class="ti ti-upload"></i>
-                  Seleccionar Archivos
+                  Subir archivos (imágenes/videos)
                 </label>
                 <span class="file-names">No se seleccionaron archivos</span>
               </div>
@@ -124,12 +179,13 @@
 
             <div class="form-actions">
               <button type="submit" class="btn-primary">
-                <i class="ti ti-device-floppy"></i>
-                Guardar Campaña
+                <i class="ti ti-rocket"></i>
+                Lanzar Campaña
               </button>
-              <button type="button" class="btn-secondary">
+              <a href="{% url 'vacante' %}" class="btn-secondary">
+                <i class="ti ti-x"></i>
                 Cancelar
-              </button>
+              </a>
             </div>
           </form>
         </section>
@@ -137,16 +193,24 @@
     </div>
 
     <script>
-      // Script para manejar la subida de archivos
+      // Manejo de archivos
       document.getElementById('media-upload').addEventListener('change', function(e) {
         const files = e.target.files;
         const fileNameContainer = document.querySelector('.file-names');
+        const fileNames = Array.from(files).map(file => file.name).join(', ');
         
-        if(files.length > 0) {
-          fileNameContainer.textContent = `${files.length} archivo(s) seleccionado(s)`;
-        } else {
-          fileNameContainer.textContent = 'No se seleccionaron archivos';
-        }
+        fileNameContainer.textContent = files.length > 0 
+          ? `${files.length} archivo(s) seleccionado(s): ${fileNames}` 
+          : 'No se seleccionaron archivos';
+      });
+
+      // Auto-seleccionar plataformas si viene de vacante
+      window.addEventListener('DOMContentLoaded', () => {
+        {% if initial_data.title %}
+          document.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
+            checkbox.checked = true;
+          });
+        {% endif %}
       });
     </script>
   </body>

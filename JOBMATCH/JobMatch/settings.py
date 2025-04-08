@@ -15,6 +15,11 @@ import os
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+# settings.py
+FACEBOOK_APP_ID = '1017785156347414'
+FACEBOOK_APP_SECRET = 'cf482f8bd1c99005bdd26ea81d57d64e'
+FACEBOOK_ACCESS_TOKEN = 'EAAOdq5KzphYBO3O4LzRtBTYHQmEgbLlu8ubx79XCp9FhXGml4mOJDFHWrYxo35IruYdghb7Fas0QYgnPh3e18EF5mQ5f3rwXrDHiGcB1CSyItsTbsA5FoVcrsxas5ybQs9pab4zqKdji14bT9l96p0htSZCZCoewj8jcI5ctC7oRdvAPlm4ftZCC3pfT10LDFM6ZCwcS'
+FACEBOOK_AD_ACCOUNT_ID = 'act_655751867418432'
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/

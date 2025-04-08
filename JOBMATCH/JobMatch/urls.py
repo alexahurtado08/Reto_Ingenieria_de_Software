@@ -16,8 +16,13 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from dashboard.views import CustomLoginView, vacante  # Asegúrate de importar vacante
+from django.views.generic.base import RedirectView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('dashboard/', include('dashboard.urls')),  
+    path('login/', CustomLoginView.as_view(), name='login'),
+    path('', RedirectView.as_view(url='/dashboard/')),
+    path('vacante/', vacante, name='vacante'),  # Usa vacante directamente aquí
 ]
