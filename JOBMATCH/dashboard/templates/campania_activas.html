@@ -14,20 +14,21 @@
     <!-- Barra lateral -->
     <nav class="sidebar">
       <div class="logo-container">
-        <h1 class="logo-text">JOBMATCH AI</h1>
+          
+          <h1 class="logo-text">JOBMATCH AI</h1>
       </div>
       <ul class="nav-menu">
-        <li class="nav-item"><a href="{% url 'dashboard' %}" class="nav-link"><i class="ti ti-layout-dashboard"></i> <span class="nav-text">Panel</span></a></li>
-        <li class="nav-item"><a href="#" class="nav-link"><i class="ti ti-activity"></i> <span class="nav-text">Campañas Activas</span></a></li>
-        <li class="nav-item"><a href="{% url 'vacante' %}" class="nav-link"><i class="ti ti-briefcase"></i> <span class="nav-text">Vacante</span></a></li>
-        <li class="nav-item"><a href="{% url 'create_campaign' %}" class="nav-link"><i class="ti ti-api"></i> <span class="nav-text">Anuncios API</span></a></li>
-        <li class="nav-item"><a href="#" class="nav-link"><i class="ti ti-settings"></i> <span class="nav-text">Configuración</span></a></li>
+          <li class="nav-item"><a href="{% url 'dashboard' %}" class="nav-link"><i class="ti ti-layout-dashboard"></i> <span class="nav-text">Panel</span></a></li>
+          <li class="nav-item active"><a href="{% url 'campania_activas' %}" class="nav-link"><i class="ti ti-activity"></i> <span class="nav-text">Campañas Activas</span></a></li>
+          <li class="nav-item"><a href="{% url 'vacante' %}" class="nav-link"><i class="ti ti-briefcase"></i> <span class="nav-text">Vacante</span></a></li>
+          <li class="nav-item"><a href="{% url 'create_campaign' %}" class="nav-link"><i class="ti ti-api"></i> <span class="nav-text">Anuncios API</span></a></li>
+          <li class="nav-item"><a href="#" class="nav-link"><i class="ti ti-settings"></i> <span class="nav-text">Configuración</span></a></li>
       </ul>
       <div class="logout-container">
-        <i class="ti ti-logout"></i>
-        <span class="nav-text">Cerrar Sesión</span>
+          <i class="ti ti-logout"></i>
+          <span class="nav-text">Cerrar Sesión</span>
       </div>
-    </nav>
+  </nav>
 
     <!-- Contenido principal -->
     <main class="main-content">
