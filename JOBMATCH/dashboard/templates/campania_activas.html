@@ -1,0 +1,76 @@
+{% load static %}
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Campañas Activas - JobMatch AI</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.30.0/tabler-icons.min.css">
+  <link rel="stylesheet" href="{% static 'dashboard/css/styles.css' %}">
+</head>
+<body>
+  <div class="dashboard-container">
+
+    <!-- Barra lateral -->
+    <nav class="sidebar">
+      <div class="logo-container">
+        <h1 class="logo-text">JOBMATCH AI</h1>
+      </div>
+      <ul class="nav-menu">
+        <li class="nav-item"><a href="{% url 'dashboard' %}" class="nav-link"><i class="ti ti-layout-dashboard"></i> <span class="nav-text">Panel</span></a></li>
+        <li class="nav-item"><a href="#" class="nav-link"><i class="ti ti-activity"></i> <span class="nav-text">Campañas Activas</span></a></li>
+        <li class="nav-item"><a href="{% url 'vacante' %}" class="nav-link"><i class="ti ti-briefcase"></i> <span class="nav-text">Vacante</span></a></li>
+        <li class="nav-item"><a href="{% url 'create_campaign' %}" class="nav-link"><i class="ti ti-api"></i> <span class="nav-text">Anuncios API</span></a></li>
+        <li class="nav-item"><a href="#" class="nav-link"><i class="ti ti-settings"></i> <span class="nav-text">Configuración</span></a></li>
+      </ul>
+      <div class="logout-container">
+        <i class="ti ti-logout"></i>
+        <span class="nav-text">Cerrar Sesión</span>
+      </div>
+    </nav>
+
+    <!-- Contenido principal -->
+    <main class="main-content">
+      <header class="main-header">
+        <div class="welcome-container">
+          <h2 class="welcome-heading">Campañas Activas</h2>
+        </div>
+      </header>
+
+      <section class="campaigns">
+        {% if campañas %}
+          <ul class="campaigns-list">
+            {% for campania in campañas %}
+              <li class="campaign-card">
+                <h3>{{ campania.nombre }}</h3>
+                <p><strong>Contenido:</strong> {{ campania.contenido }}</p>
+                <p><strong>Presupuesto:</strong> ${{ campania.presupuesto }}</p>
+                <p><strong>Fecha de Inicio:</strong> {{ campania.fecha_inicio|date:"d/m/Y H:i" }}</p>
+                <p><strong>Estado:</strong>
+                  <span style="color:
+                    {% if campania.estado == 'activa' %}green
+                    {% elif campania.estado == 'pausada' %}orange
+                    {% else %}red{% endif %};
+                  ">
+                    {{ campania.estado|capfirst }}
+                  </span>
+                </p>
+                <p><strong>Plataformas:</strong>
+                  {% for plataforma in campania.plataformas.all %}
+                    {{ plataforma.nombre }}{% if not forloop.last %}, {% endif %}
+                  {% empty %}
+                    <em>No hay plataformas asignadas</em>
+                  {% endfor %}
+                </p>
+              </li>
+            {% endfor %}
+          </ul>
+        {% else %}
+          <p class="no-campaigns">No hay campañas activas.</p>
+        {% endif %}
+      </section>
+    </main>
+
+  </div>
+</body>
+</html>

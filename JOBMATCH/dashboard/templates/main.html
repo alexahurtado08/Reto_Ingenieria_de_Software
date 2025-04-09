@@ -34,10 +34,12 @@
               <span class="nav-text">Panel</span>
             </a>
           </li>
-          <li class="nav-item {% if active_page == 'campañas' %}active{% endif %}">
-              <i class="ti ti-activity"></i>
-              <span class="nav-text">Campañas Activas</span>
-          </li>
+          <li class="nav-item {% if active_page == 'campania' %}active{% endif %}">
+            <a href="{% url 'campania_activas' %}" class="nav-link">
+                <i class="ti ti-briefcase"></i>
+                <span class="nav-text">Campañas Activas</span>
+            </a>
+        </li>
           <li class="nav-item {% if active_page == 'vacante' %}active{% endif %}">
             <a href="{% url 'vacante' %}" class="nav-link">
                 <i class="ti ti-briefcase"></i>
@@ -54,6 +56,12 @@
               <i class="ti ti-settings"></i>
               <span class="nav-text">Configuración</span>
           </li>
+          <li class="nav-item {% if active_page == 'login' %}active{% endif %}">
+            <a href="{% url 'login' %}" class="nav-link">
+                <i class="ti ti-api"></i>
+                <span class="nav-text">Login</span>
+            </a>
+        </li>
       </ul>      
         <div class="logout-container">
           <i class="ti ti-logout"></i>

@@ -7,6 +7,12 @@ from facebook_business.api import FacebookAdsApi
 from facebook_business.adobjects.campaign import Campaign
 from .forms import OfertaLaboralForm
 from .models import OfertaLaboral
+from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth import login as auth_login
+from .models import Campania
+from .models import Plataforma
+
+
 
 import json
 import os
@@ -30,15 +36,13 @@ def create_campaign(request):
 
     if request.method == 'POST':
         try:
-            # Configurar la API de Facebook
+            # 1. Crear campaña en Facebook
             FacebookAdsApi.init(
                 app_id=settings.FACEBOOK_APP_ID,
                 app_secret=settings.FACEBOOK_APP_SECRET,
                 access_token=settings.FACEBOOK_ACCESS_TOKEN,
                 api_version='v22.0'
             )
-            
-            # Crear la campaña
             campaign = Campaign(parent_id=settings.FACEBOOK_AD_ACCOUNT_ID)
             campaign.update({
                 'name': request.POST.get('campaign_name'),
@@ -46,19 +50,39 @@ def create_campaign(request):
                 'status': 'PAUSED',
                 'special_ad_categories': []
             })
-            
             campaign.remote_create()
-            
-            # Mensaje de éxito
-            messages.success(request, f'¡Campaña creada exitosamente! ID: {campaign["id"]}')
-            return redirect('create_campaign')
-            
+
+            # 2. Guardar campaña en base de datos
+            nombre = request.POST.get('campaign_name')
+            contenido = request.POST.get('ad_content')
+            presupuesto = request.POST.get('budget')
+            fecha_inicio = request.POST.get('schedule')
+            plataformas = request.POST.getlist('platforms')
+            vacante_id = request.POST.get('vacante_id')  # si pasas la vacante como hidden input
+
+            campania = Campania.objects.create(
+                usuario=request.user,
+                nombre=nombre,
+                contenido=contenido,
+                presupuesto=presupuesto,
+                fecha_inicio=fecha_inicio,
+                OfertaLaboral_id=vacante_id if vacante_id else None,
+                id_facebook=campaign['id'],
+                estado='pausada'
+            )
+
+            for nombre_plataforma in plataformas:
+                plataforma = Plataforma.objects.filter(nombre__iexact=nombre_plataforma).first()
+                if plataforma:
+                    campania.plataformas.add(plataforma)
+
+            messages.success(request, f'Campaña creada exitosamente. ID Facebook: {campaign["id"]}')
+            return redirect('dashboard')
+
         except Exception as e:
-            # Mensaje de error en caso de fallo
             messages.error(request, f'Error al crear campaña: {str(e)}')
             return redirect('create_campaign')
 
-    # Renderizar el formulario si es GET
     return render(request, 'create_campaign.html', {'initial_data': initial_data})
 
 def vista_ofertas(request):
@@ -82,3 +106,16 @@ def crear_vacante(request):
         form = OfertaLaboralForm()
 
     return render(request, 'crear_vacante.html', {'form': form})
+
+def login_view(request):
+    return render(request, 'login.html', {'active_page': 'login'})
+
+
+def campania_activas(request):
+    campañas = Campania.objects.filter(estado='activa')
+    return render(request, 'campania_activas.html', {'campañas': campañas, 'active_page': 'campania'})
+
+
+
+
+
