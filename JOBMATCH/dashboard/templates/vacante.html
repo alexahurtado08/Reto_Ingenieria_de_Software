@@ -1,0 +1,129 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión de Vacantes - JobMatch AI</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.30.0/tabler-icons.min.css">
+    <link rel="stylesheet" href="{% static 'dashboard/css/styles.css' %}">
+</head>
+<body>
+<div class="dashboard-container">
+
+    <!-- Barra lateral -->
+    <nav class="sidebar">
+        <div class="logo-container">
+            <img src="https://placehold.co/32x32/4318D1/4318D1" alt="Logo JobMatch AI" class="logo-image" />
+            <h1 class="logo-text">JOBMATCH AI</h1>
+        </div>
+        <ul class="nav-menu">
+            <li class="nav-item"><a href="{% url 'dashboard' %}" class="nav-link"><i class="ti ti-layout-dashboard"></i> <span class="nav-text">Panel</span></a></li>
+            <li class="nav-item"><a href="#" class="nav-link"><i class="ti ti-activity"></i> <span class="nav-text">Campañas Activas</span></a></li>
+            <li class="nav-item active"><a href="{% url 'vacante' %}" class="nav-link"><i class="ti ti-briefcase"></i> <span class="nav-text">Vacante</span></a></li>
+            <li class="nav-item"><a href="{% url 'create_campaign' %}" class="nav-link"><i class="ti ti-api"></i> <span class="nav-text">Anuncios API</span></a></li>
+            <li class="nav-item"><a href="#" class="nav-link"><i class="ti ti-settings"></i> <span class="nav-text">Configuración</span></a></li>
+        </ul>
+        <div class="logout-container">
+            <i class="ti ti-logout"></i>
+            <span class="nav-text">Cerrar Sesión</span>
+        </div>
+    </nav>
+
+    <!-- Contenido principal -->
+    <main class="main-content">
+        <header class="main-header">
+            <div class="welcome-container">
+                <h2 class="welcome-heading">Vacantes Activas</h2>
+            </div>
+            <div class="header-actions">
+                <a href="{% url 'crear_vacante' %}" class="btn-primary">
+                    <i class="ti ti-plus"></i> Nueva Vacante
+                </a>
+            </div>
+        </header>
+
+        <section class="vacancies-list">
+            {% for oferta in ofertas %}
+                <p>Ofertas encontradas: {{ ofertas|length }}</p>
+                <article class="vacancy-card"
+                        data-id="{{ oferta.id }}"
+                        data-title="{{ oferta.cargo }}">
+                    <div class="vacancy-info">
+                        <h3 class="vacancy-title">
+                            {{ oferta.cargo }}
+                            {% if oferta.critica %}
+                                <span class="badge-critica">★ Crítica</span>
+                            {% endif %}
+                        </h3>
+                        <div class="vacancy-meta">
+                            <span class="vacancy-location">{{ oferta.ubicacion }}</span>
+                            <span class="vacancy-salary">${{ oferta.salario|floatformat:"0" }} COP</span>
+                        </div>
+                    </div>
+                    <div class="vacancy-actions">
+                        <button class="btn-secondary" onclick="showVacancyDetails({{ oferta.id }})">
+                            <i class="ti ti-eye"></i> Ver Detalles
+                        </button>
+                        <button class="btn-primary" onclick="createCampaignFromVacancy({{ oferta.id }})">
+                            <i class="ti ti-rocket"></i> Crear Campaña
+                        </button>
+                    </div>
+                </article>
+            {% empty %}
+                <p>No hay vacantes disponibles por el momento.</p>
+            {% endfor %}
+        </section>
+
+        <!-- Modal Detalles -->
+        <div id="vacancyModal" class="modal">
+            <div class="modal-content">
+                <span class="close-modal" onclick="closeModal()">&times;</span>
+                <h3 id="modalTitle"></h3>
+                <div class="modal-body">
+                    <p id="modalDescription"></p>
+                    <div class="modal-details">
+                        <div class="detail-item"><i class="ti ti-map-pin"></i> <span id="modalLocation"></span></div>
+                        <div class="detail-item"><i class="ti ti-coin"></i> <span id="modalSalary"></span></div>
+                        <div class="detail-item"><i class="ti ti-calendar"></i> <span id="modalDate"></span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </main>
+</div>
+
+<!-- JS Modal -->
+<script>
+    function showVacancyDetails(vacancyId) {
+        const vacancy = document.querySelector(`.vacancy-card[data-id="${vacancyId}"]`);
+        document.getElementById('modalTitle').textContent = vacancy.dataset.title;
+        document.getElementById('modalDescription').textContent = vacancy.dataset.description;
+        document.getElementById('modalLocation').textContent = vacancy.querySelector('.vacancy-location').textContent;
+        document.getElementById('modalSalary').textContent = vacancy.querySelector('.vacancy-salary').textContent;
+        document.getElementById('modalDate').textContent = "Fecha pendiente";  // Ajustar si tienes fecha
+        document.getElementById('vacancyModal').style.display = 'block';
+    }
+
+    function createCampaignFromVacancy(vacancyId) {
+        const vacancy = document.querySelector(`.vacancy-card[data-id="${vacancyId}"]`);
+        const title = vacancy.dataset.title;
+        const description = vacancy.dataset.description;
+        window.location.href = `{% url 'create_campaign' %}?title=${encodeURIComponent(title)}&description=${encodeURIComponent(description)}`;
+    }
+
+    function closeModal() {
+        document.getElementById('vacancyModal').style.display = 'none';
+    }
+
+    window.onclick = function(event) {
+        const modal = document.getElementById('vacancyModal');
+        if (event.target === modal) {
+            modal.style.display = 'none';
+        }
+    }
+</script>
+</body>
+</html>

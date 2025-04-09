@@ -20,8 +20,8 @@ from dashboard.views import CustomLoginView, vacante  # Asegúrate de importar v
 from django.views.generic.base import RedirectView
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('dashboard/', include('dashboard.urls')),  
+    path('admin/', admin.site.urls),  
+    path('', include('dashboard.urls')),  # o como se llame tu app
     path('login/', CustomLoginView.as_view(), name='login'),
     path('', RedirectView.as_view(url='/dashboard/')),
     path('vacante/', vacante, name='vacante'),  # Usa vacante directamente aquí

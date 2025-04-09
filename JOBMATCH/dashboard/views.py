@@ -5,15 +5,18 @@ from django.contrib import messages
 from django.conf import settings
 from facebook_business.api import FacebookAdsApi
 from facebook_business.adobjects.campaign import Campaign
+from .forms import OfertaLaboralForm
+from .models import OfertaLaboral
+
+import json
+import os
 
 class CustomLoginView(LoginView):
     template_name = 'login.html'
     redirect_authenticated_user = True
 
-
 def main_dashboard(request):
     return render(request, 'main.html', {'active_page': 'panel'})
-
 
 def vacante(request):
     context = {'active_page': 'vacante'}
@@ -57,3 +60,25 @@ def create_campaign(request):
 
     # Renderizar el formulario si es GET
     return render(request, 'create_campaign.html', {'initial_data': initial_data})
+
+def vista_ofertas(request):
+    ofertas = OfertaLaboral.objects.all()
+    print("OFERTAS:", ofertas)
+    for o in ofertas:
+        print(o.cargo, o.salario, o.ubicacion, o.critica)  # ← imprime info clave
+    return render(request, 'vacante.html', {'ofertas': ofertas})
+
+
+
+
+
+def crear_vacante(request):
+    if request.method == 'POST':
+        form = OfertaLaboralForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('vacante')  # redirige a la lista de vacantes
+    else:
+        form = OfertaLaboralForm()
+
+    return render(request, 'crear_vacante.html', {'form': form})
