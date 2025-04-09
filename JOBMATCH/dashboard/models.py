@@ -16,7 +16,7 @@ class Campania(models.Model):
     )
 
     usuario = models.ForeignKey(User, on_delete=models.CASCADE)
-    vacante = models.ForeignKey('Vacante', on_delete=models.SET_NULL, null=True, blank=True)
+    OfertaLaboral = models.ForeignKey('OfertaLaboral', on_delete=models.SET_NULL, null=True, blank=True)
     nombre = models.CharField(max_length=200)
     contenido = models.TextField()
     plataformas = models.ManyToManyField(Plataforma)
@@ -34,3 +34,12 @@ class Multimedia(models.Model):
     archivo = models.FileField(upload_to='campañas/')
     tipo = models.CharField(max_length=50)  # imagen/video
     subido_en = models.DateTimeField(auto_now_add=True)
+    
+class OfertaLaboral(models.Model):
+    cargo = models.CharField(max_length=100)
+    salario = models.DecimalField(max_digits=10, decimal_places=2)
+    ubicacion = models.CharField(max_length=100)
+    critica = models.BooleanField(default=False)
+
+    def __str__(self):
+        return self.cargo
