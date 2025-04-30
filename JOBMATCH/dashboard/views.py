@@ -11,7 +11,10 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import login as auth_login
 from .models import Campania
 from .models import Plataforma
-
+from django.shortcuts import render, get_object_or_404, redirect
+from django.contrib import messages
+from .forms import OfertaLaboralForm, CampaniaForm
+from django.db.models import Q
 
 
 import json
@@ -34,6 +37,8 @@ def create_campaign(request):
         'description': request.GET.get('description', '')
     }
 
+    ofertas = OfertaLaboral.objects.all()  # <- Obtener todas las ofertas
+
     if request.method == 'POST':
         try:
             # 1. Crear campaña en Facebook
@@ -52,24 +57,30 @@ def create_campaign(request):
             })
             campaign.remote_create()
 
-            # 2. Guardar campaña en base de datos
+            # 2. Datos del formulario
             nombre = request.POST.get('campaign_name')
             contenido = request.POST.get('ad_content')
             presupuesto = request.POST.get('budget')
             fecha_inicio = request.POST.get('schedule')
             plataformas = request.POST.getlist('platforms')
-            vacante_id = request.POST.get('vacante_id')  # si pasas la vacante como hidden input
 
-            campania = Campania.objects.create(
-                nombre=nombre,
-                contenido=contenido,
-                presupuesto=presupuesto,
-                fecha_inicio=fecha_inicio,
-                OfertaLaboral_id=vacante_id if vacante_id else None,
-                id_facebook=campaign['id'],
-                estado='activa'  # o el estado que desees por defecto
+            # Captura de oferta laboral: primero job_offer, luego fallback a vacante_id
+            job_offer_id = request.POST.get('job_offer')
+            vacante_id = request.POST.get('vacante_id')
+            oferta_id = job_offer_id or vacante_id
+            oferta = OfertaLaboral.objects.filter(id=oferta_id).first() if oferta_id else None
+
+            campania = Campania(
+                nombre=request.POST.get("campaign_name"),
+                contenido=request.POST.get("ad_content"),
+                presupuesto=request.POST.get("budget"),
+                fecha_inicio=request.POST.get("schedule"),
+                OfertaLaboral=oferta,
+                estado='activa',  # o el valor que uses por defecto
             )
+            campania.save()
 
+            # 4. Asociar plataformas
             for nombre_plataforma in plataformas:
                 plataforma = Plataforma.objects.filter(nombre__iexact=nombre_plataforma).first()
                 if plataforma:
@@ -82,8 +93,11 @@ def create_campaign(request):
             messages.error(request, f'Error al crear campaña: {str(e)}')
             return redirect('create_campaign')
 
-    return render(request, 'create_campaign.html', {'initial_data': initial_data})
-
+    return render(request, 'create_campaign.html', {
+        'initial_data': initial_data,
+        'ofertas': ofertas  # <- Enviamos al template
+    })
+    
 def vista_ofertas(request):
     ofertas = OfertaLaboral.objects.all()
     print("OFERTAS:", ofertas)
@@ -111,10 +125,47 @@ def login_view(request):
 
 
 def campania_activas(request):
-    campañas = Campania.objects.filter(estado='activa')
+    campañas = Campania.objects.filter(Q(estado='activa') | Q(estado='pausada'))
     return render(request, 'campania_activas.html', {'campañas': campañas, 'active_page': 'campania'})
 
+def editar_campania(request, pk):
+    campania = get_object_or_404(Campania, pk=pk)
+    if request.method == 'POST':
+        form = CampaniaForm(request.POST, instance=campania)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Campaña actualizada exitosamente.')
+            return redirect('campania_activas')
+    else:
+        form = CampaniaForm(instance=campania)
+    return render(request, 'editar_campania.html', {'form': form, 'campania': campania})
 
+
+def pausar_campania(request, pk):
+    campania = get_object_or_404(Campania, pk=pk)
+    if campania.estado == 'activa':
+        campania.estado = 'pausada'
+        campania.save()
+        messages.info(request, f'Campaña "{campania.nombre}" pausada.')
+    return redirect('campania_activas')
+
+
+def reactivar_campania(request, pk):
+    campania = get_object_or_404(Campania, pk=pk)
+    if campania.estado == 'pausada':
+        campania.estado = 'activa'
+        campania.save()
+        messages.success(request, f'Campaña "{campania.nombre}" reactivada.')
+    return redirect('campania_activas')
+
+
+def finalizar_campania(request, pk):
+    campania = get_object_or_404(Campania, pk=pk)
+    if campania.estado != 'finalizada':
+        campania.estado = 'finalizada'
+        campania.save()
+        messages.warning(request, f'Campaña "{campania.nombre}" finalizada.')
+    return redirect('campania_activas')
 
 
 

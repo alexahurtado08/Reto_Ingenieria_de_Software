@@ -1,0 +1,18 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Pausar Campaña</title>
+    <link rel="stylesheet" href="{% static 'dashboard/css/styles.css' %}">
+</head>
+<body>
+    <h2>¿Deseas pausar esta campaña?</h2>
+    <p><strong>{{ campania.nombre }}</strong></p>
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit">Sí, pausar</button>
+        <a href="{% url 'campania_activas' %}">Cancelar</a>
+    </form>
+</body>
+</html>
