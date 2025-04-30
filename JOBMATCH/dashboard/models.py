@@ -15,7 +15,7 @@ class Campania(models.Model):
         ('finalizada', 'Finalizada'),
     )
 
-    usuario = models.ForeignKey(User, on_delete=models.CASCADE)
+    
     OfertaLaboral = models.ForeignKey('OfertaLaboral', on_delete=models.SET_NULL, null=True, blank=True)
     nombre = models.CharField(max_length=200)
     contenido = models.TextField()
@@ -23,7 +23,7 @@ class Campania(models.Model):
     presupuesto = models.DecimalField(max_digits=10, decimal_places=2)
     fecha_inicio = models.DateTimeField()
     fecha_creacion = models.DateTimeField(auto_now_add=True)
-    estado = models.CharField(max_length=20, choices=ESTADOS, default='pausada')
+    estado = models.CharField(max_length=20, choices=ESTADOS, default='activa')
     id_facebook = models.CharField(max_length=100, blank=True)  # ID de la campaña en Meta
 
     def __str__(self):

@@ -61,14 +61,13 @@ def create_campaign(request):
             vacante_id = request.POST.get('vacante_id')  # si pasas la vacante como hidden input
 
             campania = Campania.objects.create(
-                usuario=request.user,
                 nombre=nombre,
                 contenido=contenido,
                 presupuesto=presupuesto,
                 fecha_inicio=fecha_inicio,
                 OfertaLaboral_id=vacante_id if vacante_id else None,
                 id_facebook=campaign['id'],
-                estado='pausada'
+                estado='activa'  # o el estado que desees por defecto
             )
 
             for nombre_plataforma in plataformas:

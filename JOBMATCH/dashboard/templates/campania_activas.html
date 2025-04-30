@@ -14,7 +14,6 @@
     <!-- Barra lateral -->
     <nav class="sidebar">
       <div class="logo-container">
-          
           <h1 class="logo-text">JOBMATCH AI</h1>
       </div>
       <ul class="nav-menu">
@@ -28,7 +27,7 @@
           <i class="ti ti-logout"></i>
           <span class="nav-text">Cerrar Sesión</span>
       </div>
-  </nav>
+    </nav>
 
     <!-- Contenido principal -->
     <main class="main-content">
@@ -40,32 +39,36 @@
 
       <section class="campaigns">
         {% if campañas %}
-          <ul class="campaigns-list">
+          <div class="campaign-cards-container">
             {% for campania in campañas %}
-              <li class="campaign-card">
-                <h3>{{ campania.nombre }}</h3>
-                <p><strong>Contenido:</strong> {{ campania.contenido }}</p>
-                <p><strong>Presupuesto:</strong> ${{ campania.presupuesto }}</p>
-                <p><strong>Fecha de Inicio:</strong> {{ campania.fecha_inicio|date:"d/m/Y H:i" }}</p>
-                <p><strong>Estado:</strong>
-                  <span style="color:
-                    {% if campania.estado == 'activa' %}green
-                    {% elif campania.estado == 'pausada' %}orange
-                    {% else %}red{% endif %};
-                  ">
-                    {{ campania.estado|capfirst }}
-                  </span>
-                </p>
-                <p><strong>Plataformas:</strong>
-                  {% for plataforma in campania.plataformas.all %}
-                    {{ plataforma.nombre }}{% if not forloop.last %}, {% endif %}
-                  {% empty %}
-                    <em>No hay plataformas asignadas</em>
-                  {% endfor %}
-                </p>
-              </li>
+              <div class="campaign-card">
+                <div class="card-header">
+                  <h3>{{ campania.nombre }}</h3>
+                </div>
+                <div class="card-body">
+                  <p><strong>Contenido:</strong> {{ campania.contenido }}</p>
+                  <p><strong>Presupuesto:</strong> ${{ campania.presupuesto }}</p>
+                  <p><strong>Fecha de Inicio:</strong> {{ campania.fecha_inicio|date:"d/m/Y H:i" }}</p>
+                  <p><strong>Estado:</strong>
+                    <span class="status-label" style="color:
+                      {% if campania.estado == 'activa' %}green
+                      {% elif campania.estado == 'pausada' %}orange
+                      {% else %}red{% endif %};
+                    ">
+                      {{ campania.estado|capfirst }}
+                    </span>
+                  </p>
+                  <p><strong>Plataformas:</strong>
+                    {% for plataforma in campania.plataformas.all %}
+                      {{ plataforma.nombre }}{% if not forloop.last %}, {% endif %}
+                    {% empty %}
+                      <em>No hay plataformas asignadas</em>
+                    {% endfor %}
+                  </p>
+                </div>
+              </div>
             {% endfor %}
-          </ul>
+          </div>
         {% else %}
           <p class="no-campaigns">No hay campañas activas.</p>
         {% endif %}
