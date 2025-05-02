@@ -787,6 +787,23 @@ input[type="checkbox"]:checked ~ .platform-option {
   cursor: pointer;
   font-size: 24px;
 }
+.btn-publicar {
+  background-color: #001838;
+  color: white;
+  padding: 10px 16px;
+  font-size: 0.9em;
+  border-radius: 8px;
+  font-weight: 500;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  transition: background 0.3s ease;
+}
+
+.btn-publicar:hover {
+  background-color: #000f2b;
+}
 
 
 

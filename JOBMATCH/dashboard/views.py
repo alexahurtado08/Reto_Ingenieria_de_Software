@@ -168,4 +168,32 @@ def finalizar_campania(request, pk):
     return redirect('campania_activas')
 
 
+def seleccionar_campania(request):
+    campañas_activas = Campania.objects.filter(estado='activa')
+
+    if request.method == 'POST':
+        campania_id = request.POST.get('campania_id')
+        # Redirigir a la vista del anuncio
+        return redirect('vista_anuncio', campania_id=campania_id)
+
+    return render(request, 'seleccionar_campania.html', {'campañas': campañas_activas})
+
+
+
+def vista_anuncio(request, campania_id):
+    try:
+        # Obtener la campaña
+        campania = Campania.objects.get(id=campania_id)
+        
+        # Obtener la oferta laboral asociada a la campaña
+        oferta = campania.OfertaLaboral
+
+        # Pasar la información a la plantilla
+        return render(request, 'vista_anuncio.html', {'campania': campania, 'oferta': oferta})
+    except Campania.DoesNotExist:
+        # Manejar el caso donde la campaña no existe
+        return render(request, 'error.html', {'message': 'Campaña no encontrada.'})
+
+
+
 

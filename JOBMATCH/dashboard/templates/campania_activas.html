@@ -80,6 +80,13 @@
           <h2 class="welcome-heading">Campañas Activas</h2>
         </div>
       </header>
+      <div style="margin-bottom: 20px;">
+        <a href="{% url 'seleccionar_campania' %}" class="btn btn-publicar" style="background-color: #001838; color: white;">
+          <i class="ti ti-upload"></i> Publicar anuncio
+        </a>
+      </div>
+      
+      
 
       <section class="campaigns">
         {% if campañas %}

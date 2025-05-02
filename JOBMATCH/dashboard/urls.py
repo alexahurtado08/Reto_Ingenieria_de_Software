@@ -13,6 +13,10 @@ urlpatterns = [
     path('campania/<int:pk>/pausar/', views.pausar_campania, name='pausar_campania'),
     path('campania/<int:pk>/reactivar/', views.reactivar_campania, name='reactivar_campania'),
     path('campania/<int:pk>/finalizar/', views.finalizar_campania, name='finalizar_campania'),
+    path('seleccionar-campania/', views.seleccionar_campania, name='seleccionar_campania'),
+    path('ver-anuncio/<int:campania_id>/', views.vista_anuncio, name='vista_anuncio'),
+
+
 
 
 

@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Vista del Anuncio</title>
+</head>
+<body>
+
+  <h2>{{ campania.nombre }}</h2>
+
+  {% if oferta %}
+    <p><strong>Cargo:</strong> {{ oferta.cargo }}</p>
+    <p><strong>Salario:</strong> ${{ oferta.salario }}</p>
+    <p><strong>Ubicación:</strong> {{ oferta.ubicacion }}</p>
+  {% else %}
+    <p>No hay oferta laboral asociada a esta campaña.</p>
+  {% endif %}
+  
+  <h3>Descripción:</h3>
+  <p>{{ campania.contenido }}</p>
+
+
+</body>
+</html>
