@@ -1,83 +1,122 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <title>Postulación a la Oferta - {{ campania.nombre }}</title>
+    <meta charset="UTF-8">
+    <title>Postulación a la Oferta - {{ campania.nombre }}</title>
+    <link rel="stylesheet" href="{% static 'dashboard/css/styles.css' %}">
+    <style>
+        .form-container {
+            max-width: 500px;
+            margin: 2rem auto;
+            padding: 2rem;
+            background-color: #f9f9f9;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .form-container h2 {
+            text-align: center;
+        }
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        .form-group label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+        .form-group input[type="text"],
+        .form-group input[type="number"],
+        .form-group select {
+            width: 100%;
+            padding: 0.6rem;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        .btn-success {
+            background-color: #28a745;
+            color: white;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+        }
+        .btn-success:hover {
+            background-color: #218838;
+        }
+    </style>
 </head>
 <body>
+    <div class="form-container">
+        <h2>Postúlate para la oferta: {{ campania.nombre }}</h2>
+        <form method="POST">
+            {% csrf_token %}
 
-  <h2>Postúlate para la oferta: {{ campania.nombre }}</h2>
+            <div class="form-group">
+                <label for="id_nombre">Nombre:</label>
+                <input type="text" name="nombre" id="id_nombre" required>
+            </div>
 
-  <form method="POST">
-    {% csrf_token %}
-    
-    <div>
-      <label for="id_nombre">Nombre:</label>
-      <input type="text" name="nombre" id="id_nombre" required>
+            <div class="form-group">
+                <label for="id_telefono">Teléfono de Contacto:</label>
+                <input type="text" name="telefono" id="id_telefono" required>
+            </div>
+
+            <div class="form-group">
+                <label for="id_medio_conocimiento">¿Cómo conoció la oferta?</label>
+                <select name="medio_conocimiento" id="id_medio_conocimiento" required>
+                    <option value="tik_tok">Tik Tok</option>
+                    <option value="facebook">Facebook</option>
+                    <option value="instagram">Instagram</option>
+                    <option value="google">Google</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="id_edad">Edad:</label>
+                <input type="number" name="edad" id="id_edad" required min="18" max="100">
+            </div>
+
+            <div class="form-group">
+                <label for="id_genero">Género:</label>
+                <select name="genero" id="id_genero" required>
+                    <option value="femenino">Femenino</option>
+                    <option value="masculino">Masculino</option>
+                    <option value="no_responder">Prefiero no responder</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="id_pais">País:</label>
+                <input type="text" name="pais" id="id_pais" required>
+            </div>
+
+            <div class="form-group">
+                <label for="id_departamento">Departamento:</label>
+                <input type="text" name="departamento" id="id_departamento" required>
+            </div>
+
+            <div class="form-group">
+                <label for="id_ciudad">Ciudad:</label>
+                <input type="text" name="ciudad" id="id_ciudad" required>
+            </div>
+
+            <div class="form-group">
+                <label for="id_nivel_estudios">Nivel de Estudios:</label>
+                <select name="nivel_estudios" id="id_nivel_estudios" required>
+                    <option value="basica_primaria">Básica Primaria</option>
+                    <option value="bachillerato">Bachillerato</option>
+                    <option value="media_academica">Media Académica</option>
+                    <option value="profesional">Profesional</option>
+                    <option value="maestria">Maestría</option>
+                    <option value="doctorado">Doctorado</option>
+                    <option value="no_aplica">No Aplica</option>
+                </select>
+            </div>
+
+            <button type="submit" class="btn-success">Enviar Postulación</button>
+        </form>
     </div>
-
-    <div>
-      <label for="id_telefono">Teléfono de Contacto:</label>
-      <input type="text" name="telefono" id="id_telefono" required>
-    </div>
-
-    <div>
-      <label for="id_medio_conocimiento">¿Cómo conoció la oferta?</label>
-      <select name="medio_conocimiento" id="id_medio_conocimiento" required>
-        <option value="tik_tok">Tik Tok</option>
-        <option value="facebook">Facebook</option>
-        <option value="instagram">Instagram</option>
-        <option value="google">Google</option>
-      </select>
-    </div>
-
-    <div>
-      <label for="id_edad">Edad:</label>
-      <input type="number" name="edad" id="id_edad" required min="18" max="100">
-    </div>
-
-    <div>
-      <label for="id_genero">Género:</label>
-      <select name="genero" id="id_genero" required>
-        <option value="femenino">Femenino</option>
-        <option value="masculino">Masculino</option>
-        <option value="no_responder">Prefiero no responder</option>
-      </select>
-    </div>
-
-    <div>
-      <label for="id_pais">País:</label>
-      <input type="text" name="pais" id="id_pais" required>
-    </div>
-
-    <div>
-      <label for="id_departamento">Departamento:</label>
-      <input type="text" name="departamento" id="id_departamento" required>
-    </div>
-
-    <div>
-      <label for="id_ciudad">Ciudad:</label>
-      <input type="text" name="ciudad" id="id_ciudad" required>
-    </div>
-
-    <div>
-      <label for="id_nivel_estudios">Nivel de Estudios:</label>
-      <select name="nivel_estudios" id="id_nivel_estudios" required>
-        <option value="basica_primaria">Básica Primaria</option>
-        <option value="bachillerato">Bachillerato</option>
-        <option value="media_academica">Media Académica</option>
-        <option value="profesional">Profesional</option>
-        <option value="maestria">Maestría</option>
-        <option value="doctorado">Doctorado</option>
-        <option value="no_aplica">No Aplica</option>
-      </select>
-    </div>
-
-    <div>
-      <button type="submit">Enviar Postulación</button>
-    </div>
-
-  </form>
-
 </body>
 </html>

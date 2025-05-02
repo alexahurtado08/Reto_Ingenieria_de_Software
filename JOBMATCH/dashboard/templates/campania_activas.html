@@ -14,6 +14,26 @@
       gap: 10px;
       flex-wrap: wrap;
     }
+    .btn-publicar {
+      background-color: #23B73C;
+      color: white;
+      padding: 10px 18px;
+      font-size: 1em;
+      border-radius: 10px;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-weight: 600;
+      transition: background-color 0.2s ease, box-shadow 0.2s ease;
+      box-shadow: 0 4px 8px rgba(35, 183, 60, 0.2);
+    }
+    
+    .btn-publicar:hover {
+      background-color: #28c74a;
+      box-shadow: 0 6px 12px rgba(35, 183, 60, 0.3);
+      text-decoration: none;
+    }
+    
 
     .card-actions .btn {
       padding: 6px 12px;
@@ -81,7 +101,7 @@
         </div>
       </header>
       <div style="margin-bottom: 20px;">
-        <a href="{% url 'seleccionar_campania' %}" class="btn btn-publicar" style="background-color: #001838; color: white;">
+        <a href="{% url 'seleccionar_campania' %}" class="btn btn-publicar">
           <i class="ti ti-upload"></i> Publicar anuncio
         </a>
       </div>
