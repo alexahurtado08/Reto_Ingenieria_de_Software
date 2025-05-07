@@ -1,6 +1,8 @@
 from django.db import models
 from django.contrib.auth.models import User
 
+
+
 class Plataforma(models.Model):
     nombre = models.CharField(max_length=50)
     api_key = models.CharField(max_length=100, blank=True)
@@ -43,3 +45,19 @@ class OfertaLaboral(models.Model):
 
     def __str__(self):
         return self.cargo
+    
+    
+class Postulacion(models.Model):
+    nombre = models.CharField(max_length=100)
+    telefono = models.CharField(max_length=20)
+    medio_conocimiento = models.CharField(max_length=50)
+    edad = models.PositiveIntegerField()
+    genero = models.CharField(max_length=20)
+    pais = models.CharField(max_length=50)
+    departamento = models.CharField(max_length=50)
+    ciudad = models.CharField(max_length=50)
+    nivel_estudios = models.CharField(max_length=50)
+    fecha_postulacion = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.nombre

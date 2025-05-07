@@ -21,3 +21,4 @@ class CampaniaForm(forms.ModelForm):
             'fecha_inicio': forms.DateTimeInput(attrs={'type': 'datetime-local'}),
             'plataformas': forms.CheckboxSelectMultiple(),
         }
+

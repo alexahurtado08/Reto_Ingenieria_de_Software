@@ -16,6 +16,10 @@ from django.contrib import messages
 from .forms import OfertaLaboralForm, CampaniaForm
 from django.db.models import Q
 from django import forms
+from cities_light.models import Country, Region, City
+from django.http import JsonResponse
+from cities_light.models import Region, City
+from .models import Postulacion
 
 
 import json
@@ -197,61 +201,53 @@ def vista_anuncio(request, campania_id):
 
 
 # Crear el formulario para postulación
-class PostulacionForm(forms.Form):
-    nombre = forms.CharField(max_length=100, label="Nombre")
-    telefono = forms.CharField(max_length=20, label="Teléfono de Contacto")
-    medio_conocimiento = forms.ChoiceField(
-        choices=[
-            ('tik_tok', 'Tik Tok'),
-            ('facebook', 'Facebook'),
-            ('instagram', 'Instagram'),
-            ('google', 'Google'),
-        ],
-        label="¿Cómo conoció la oferta?"
-    )
-    edad = forms.IntegerField(label="Edad", min_value=18, max_value=100)
-    genero = forms.ChoiceField(
-        choices=[
-            ('femenino', 'Femenino'),
-            ('masculino', 'Masculino'),
-            ('no_responder', 'Prefiero no responder')
-        ],
-        label="Género"
-    )
-    pais = forms.CharField(max_length=100, label="País")
-    departamento = forms.CharField(max_length=100, label="Departamento")
-    ciudad = forms.CharField(max_length=100, label="Ciudad")
-    nivel_estudios = forms.ChoiceField(
-        choices=[
-            ('basica_primaria', 'Básica Primaria'),
-            ('bachillerato', 'Bachillerato'),
-            ('media_academica', 'Media Académica'),
-            ('profesional', 'Profesional'),
-            ('maestria', 'Maestría'),
-            ('doctorado', 'Doctorado'),
-            ('no_aplica', 'No Aplica'),
-        ],
-        label="Nivel de Estudios"
-    )
+from django import forms
+from cities_light.models import Country, Region, City
 
-# Vista para manejar la postulación
+class PostulacionForm(forms.ModelForm):
+    class Meta:
+        model = Postulacion
+        fields = '__all__'
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['departamento'].queryset = Region.objects.none()
+        self.fields['ciudad'].queryset = City.objects.none()
+
+        if 'pais' in self.data:
+            try:
+                pais_id = int(self.data.get('pais'))
+                self.fields['departamento'].queryset = Region.objects.filter(country_id=pais_id)
+            except (ValueError, TypeError):
+                pass
+        if 'departamento' in self.data:
+            try:
+                departamento_id = int(self.data.get('departamento'))
+                self.fields['ciudad'].queryset = City.objects.filter(region_id=departamento_id)
+            except (ValueError, TypeError):
+                pass
+
+#Vista para postulación
 def postular(request, campania_id):
-    # Obtener la campaña
-    try:
-        campania = Campania.objects.get(id=campania_id)
-    except Campania.DoesNotExist:
-        return redirect('error')  # Redirige si no se encuentra la campaña
-
     if request.method == 'POST':
         form = PostulacionForm(request.POST)
         if form.is_valid():
-            # Aquí puedes guardar la postulación en la base de datos si lo deseas
-            # Crear una entrada en el modelo de postulaciones si lo tienes (esto es opcional)
-
-            # Redirigir al usuario a la página de Magneto
+            form.save()
             return redirect('https://www.magneto365.com/es')
     else:
         form = PostulacionForm()
+    
+    return render(request, 'postulacion.html', {'form': form})
 
-    return render(request, 'postulacion.html', {'form': form, 'campania': campania})
+
+
+def actualizar_departamentos(request):
+    pais_id = request.GET.get('pais_id')
+    departamentos = Region.objects.filter(country_id=pais_id).values('id', 'name')
+    return JsonResponse({'departamentos': list(departamentos)})
+
+def actualizar_ciudades(request):
+    departamento_id = request.GET.get('departamento_id')
+    ciudades = City.objects.filter(region_id=departamento_id).values('id', 'name')
+    return JsonResponse({'ciudades': list(ciudades)})
 
