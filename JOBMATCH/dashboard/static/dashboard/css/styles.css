@@ -787,3 +787,495 @@ input[type="checkbox"]:checked ~ .platform-option {
   cursor: pointer;
   font-size: 24px;
 }
+.auto-segment-switch {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 48px;
+  height: 28px;
+}
+
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #e5e7eb;
+  transition: .4s;
+  border-radius: 34px;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 20px;
+  width: 20px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  transition: .4s;
+  border-radius: 50%;
+}
+
+input:checked + .slider {
+  background-color: #22c55e;
+}
+
+input:checked + .slider:before {
+  transform: translateX(20px);
+}
+
+.manual-segment-fields {
+  margin-top: 1.5rem;
+  padding: 1.5rem;
+  background: #f8fafc;
+  border-radius: 12px;
+  border: 2px solid #e5e7eb;
+}
+
+.form-subgroup {
+  margin-bottom: 1.5rem;
+}
+
+.age-range {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.age-range input {
+  width: 80px;
+  text-align: center;
+}
+
+.checkbox-group {
+  display: flex;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.checkbox-option {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+}
+
+.segment-preview {
+  margin-top: 1.5rem;
+  padding: 1.5rem;
+  background: #ffffff;
+  border-radius: 12px;
+  border: 2px solid #e5e7eb;
+}
+
+.audience-metrics {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 1.5rem;
+  margin-top: 1rem;
+}
+
+.metric {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1rem;
+  background: #f8fafc;
+  border-radius: 8px;
+}
+
+.metric i {
+  font-size: 1.5rem;
+  color: #22c55e;
+}
+
+/* Estilos para optimización con IA */
+.content-optimizer {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.btn-ai-optimize {
+  background: #4318D1;
+  color: white;
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: all 0.3s ease;
+}
+
+.btn-ai-optimize:hover {
+  background: #3712af;
+  transform: translateY(-1px);
+}
+
+.optimization-score {
+  background: #ffffff;
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  border: 2px solid #e5e7eb;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #4318D1;
+}
+
+/* Mejoras responsive */
+@media (max-width: 768px) {
+  .manual-segment-fields {
+    padding: 1rem;
+  }
+  
+  .checkbox-group {
+    gap: 1rem;
+  }
+  
+  .age-range input {
+    width: 70px;
+  }
+  
+  .audience-metrics {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 480px) {
+  .auto-segment-switch {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .age-range {
+    flex-direction: column;
+  }
+  
+  .age-range span {
+    display: none;
+  }
+  
+  .age-range input {
+    width: 100%;
+  }
+}
+/* Estilos para el <select> de Nivel Educativo */
+.form-select {
+  width: 100%;
+  padding: 1rem;
+  border: 2px solid #e5e7eb;
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  background: #f8fafc;
+}
+
+.form-select:focus {
+  border-color: #22c55e;
+  background-color: white;
+  box-shadow: 0 0 0 3px rgba(67, 24, 209, 0.15);
+  outline: none;
+}
+
+/* Estilos para las casillas de verificación (checkbox) */
+.checkbox-group {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.checkbox-option {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+}
+
+.checkbox-option input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  border: 2px solid #e5e7eb;
+  border-radius: 4px;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.checkbox-option input[type="checkbox"]:checked {
+  background-color: #22c55e;
+  border-color: #22c55e;
+  transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+.checkbox-option input[type="checkbox"]:checked:before {
+  content: "✔";
+  color: white;
+  font-size: 12px;
+  text-align: center;
+  line-height: 16px;
+}
+
+.checkbox-option label {
+  font-size: 0.9rem;
+  color: #64748b;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.checkbox-option input[type="checkbox"]:checked + label {
+  color: #22c55e; /* Cambia el color de la etiqueta cuando el checkbox está marcado */
+}
+
+.checkbox-option input[type="checkbox"]:hover {
+  border-color: #22c55e;
+  background-color: #e5f5e1;
+}
+
+/* Estilos para el icono de cada plataforma */
+.platform-option input[type="checkbox"]:checked + i {
+  color: #22c55e; /* Cambia el color del icono cuando la opción está seleccionada */
+}
+
+/* Estilos para el contenedor de las plataformas */
+.platform-selector {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+}
+
+.platform-option {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1.25rem;
+  border: 2px solid #e5e7eb;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  background: #ffffff;
+}
+
+.platform-option:hover {
+  transform: translateY(-2px);
+  border-color: #22c55e;
+  box-shadow: 0 4px 12px rgba(67, 24, 209, 0.1);
+}
+
+.platform-option i {
+  font-size: 1.5rem;
+  color: #64748b;
+  transition: color 0.2s ease;
+}
+
+.platform-option input:checked + i {
+  color: #22c55e; /* Cambia el color del icono de las plataformas seleccionadas */
+}
+
+input[type="checkbox"]:checked ~ .platform-option {
+  border-color: #22c55e;
+  background: #f5f3ff;
+}
+
+/* Nuevos estilos para segmentación */
+.auto-segment-switch {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 48px;
+  height: 28px;
+}
+
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #e5e7eb;
+  transition: .4s;
+  border-radius: 34px;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 20px;
+  width: 20px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  transition: .4s;
+  border-radius: 50%;
+}
+
+input:checked + .slider {
+  background-color: #22c55e;
+}
+
+.manual-segment-fields {
+  margin-top: 1.5rem;
+  padding: 1.5rem;
+  background: #f8fafc;
+  border-radius: 12px;
+  border: 2px solid #e5e7eb;
+}
+
+.form-subgroup {
+  margin-bottom: 1.5rem;
+}
+
+.age-range {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.age-range input {
+  width: 80px;
+  text-align: center;
+}
+
+.checkbox-group {
+  display: flex;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.checkbox-option {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+}
+
+.segment-preview {
+  margin-top: 1.5rem;
+  padding: 1.5rem;
+  background: #ffffff;
+  border-radius: 12px;
+  border: 2px solid #e5e7eb;
+}
+
+.audience-metrics {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 1.5rem;
+  margin-top: 1rem;
+}
+
+.metric {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1rem;
+  background: #f8fafc;
+  border-radius: 8px;
+}
+
+.metric i {
+  font-size: 1.5rem;
+  color: #22c55e;
+}
+
+.content-optimizer {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.btn-ai-optimize {
+  background: #4318D1;
+  color: white;
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: all 0.3s ease;
+}
+
+.btn-ai-optimize:hover {
+  background: #3712af;
+  transform: translateY(-1px);
+}
+
+.optimization-score {
+  background: #ffffff;
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  border: 2px solid #e5e7eb;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #4318D1;
+}
+
+/* Mejoras responsive */
+@media (max-width: 768px) {
+  .manual-segment-fields {
+    padding: 1rem;
+  }
+  
+  .checkbox-group {
+    gap: 1rem;
+  }
+  
+  .age-range input {
+    width: 70px;
+  }
+  
+  .audience-metrics {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 480px) {
+  .auto-segment-switch {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .age-range {
+    flex-direction: column;
+  }
+  
+  .age-range span {
+    display: none;
+  }
+  
+  .age-range input {
+    width: 100%;
+  }
+}
