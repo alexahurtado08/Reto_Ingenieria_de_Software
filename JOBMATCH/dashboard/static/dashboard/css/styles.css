@@ -806,4 +806,334 @@ input[type="checkbox"]:checked ~ .platform-option {
 }
 
 
+/* ================ Login / Register ================ */
+.auth-background {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #5B4B8A 0%, #22C55E 100%);
+}
 
+.btn-home {
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
+  color: rgba(255,255,255,0.8);
+  font-size: 0.9rem;
+  text-decoration: none;
+}
+.btn-home:hover { color: #fff; }
+
+.card-container {
+  width: 360px;
+  perspective: 1000px;
+}
+
+.card-inner {
+  position: relative;
+  width: 100%;
+  transform-style: preserve-3d;
+  transition: transform 0.6s ease;
+}
+
+.card-inner.flipped {
+  transform: rotateY(180deg);
+}
+
+.card-face {
+  position: absolute;
+  width: 100%;
+  backface-visibility: hidden;
+  border-radius: 1rem;
+  padding: 2rem;
+  background: rgba(255,255,255,0.15);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+  color: #fff;
+}
+
+.face-front { /* mantiene la cara frontal */ }
+.back { transform: rotateY(180deg); }
+
+.auth-logo {
+  display: block;
+  margin: 0 auto 1rem;
+  width: 64px;
+  height: 64px;
+}
+
+.auth-title {
+  text-align: center;
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-bottom: 0.25rem;
+}
+
+.auth-subtitle {
+  text-align: center;
+  font-size: 0.9rem;
+  opacity: 0.85;
+  margin-bottom: 1.5rem;
+}
+
+.auth-form .form-label {
+  display: block;
+  font-size: 0.85rem;
+  margin-bottom: 0.25rem;
+}
+
+.input-icon {
+  position: relative;
+  margin-bottom: 1rem;
+}
+
+.input-icon i {
+  position: absolute;
+  top: 50%;
+  left: 0.75rem;
+  transform: translateY(-50%);
+  font-size: 1rem;
+  opacity: 0.8;
+}
+
+.input-icon input {
+  width: 100%;
+  padding: 0.65rem 0.75rem 0.65rem 2.5rem;
+  border: none;
+  border-radius: 0.5rem;
+  background: rgba(255,255,255,0.3);
+  color: #fff;
+  font-size: 0.95rem;
+}
+
+.input-icon input:focus {
+  outline: 2px solid #fff;
+  background: rgba(255,255,255,0.5);
+}
+
+.show-password {
+  position: absolute;
+  top: 50%;
+  right: 0.75rem;
+  transform: translateY(-50%);
+  cursor: pointer;
+  opacity: 0.8;
+}
+
+.auth-btn {
+  width: 100%;
+  padding: 0.75rem;
+  border: none;
+  border-radius: 0.5rem;
+  font-size: 1rem;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  margin-bottom: 1rem;
+}
+
+.btn-primary.auth-btn {
+  background: #fff;
+  color: #22C55E;
+}
+.btn-primary.auth-btn:hover {
+  background: #f1f1f1;
+}
+
+.btn-secondary.auth-btn {
+  background: transparent;
+  border: 2px solid #fff;
+  color: #fff;
+}
+.btn-secondary.auth-btn:hover {
+  background: rgba(255,255,255,0.2);
+}
+
+.auth-links {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.85rem;
+}
+.auth-links-center { justify-content: center; }
+.link-placeholder {
+  color: rgba(255,255,255,0.7);
+  text-decoration: none;
+}
+.link-action {
+  color: #fff;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.auth-error {
+  background: rgba(255, 0, 0, 0.1);
+  color: #ffe5e5;
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+/* —————— Login / Register tweaks —————— */
+.auth-background {
+  /* en lugar de centrar verticalmente, la subimos un poco */
+  display: flex;
+  justify-content: center;    /* centro horizontal */
+  align-items: flex-start;    /* alineo al tope del contenedor */
+  padding-top: 5rem;          /* espacio desde arriba */
+  min-height: 100vh;
+  background: #f8fafc;        /* fondo ligero (blanco roto) */
+}
+
+.card-container {
+  width: 360px;
+  perspective: 1000px;
+  /* ya no necesitas cambiarlos */
+}
+
+.card-inner {
+  position: relative;
+  width: 100%;
+  transform-style: preserve-3d;
+  transition: transform 0.6s ease;
+}
+
+.card-inner.flipped {
+  transform: rotateY(180deg);
+}
+
+.card-face {
+  position: absolute;
+  width: 100%;
+  backface-visibility: hidden;
+  border-radius: 1rem;
+  padding: 2rem;
+  background: #ffffff;                /* blanco sólido */
+  box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+  color: #1e293b;                     /* texto oscuro de la paleta */
+}
+
+.card-face.back {
+  transform: rotateY(180deg);
+}
+
+/* Títulos y subtítulos */
+.auth-title {
+  text-align: center;
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-bottom: 0.25rem;
+  color: #1e293b !important;
+}
+.auth-subtitle {
+  text-align: center;
+  font-size: 0.9rem;
+  opacity: 0.85;
+  margin-bottom: 1.5rem;
+  color: #64748b !important;
+}
+
+/* Inputs y labels */
+.auth-form .form-label {
+  display: block;
+  font-size: 0.85rem;
+  margin-bottom: 0.25rem;
+  color: #1e293b;
+}
+.input-icon input {
+  width: 100%;
+  padding: 0.65rem 0.75rem 0.65rem 2.5rem;
+  border: 1px solid #e5e7eb;
+  border-radius: 0.5rem;
+  background: #f8fafc;
+  color: #1e293b;
+  font-size: 0.95rem;
+}
+.input-icon input:focus {
+  outline: 2px solid #22C55E;
+  background: #ffffff;
+}
+.input-icon i {
+  color: #64748b;
+}
+
+/* Botones */
+.auth-btn {
+  width: 100%;
+  padding: 0.75rem;
+  border-radius: 0.5rem;
+  font-size: 1rem;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+.btn-primary.auth-btn {
+  background: #22C55E;
+  color: #ffffff;
+}
+.btn-primary.auth-btn:hover {
+  transform: translateY(-2px);
+  background: #1fa34a;
+}
+.btn-secondary.auth-btn {
+  background: transparent;
+  border: 2px solid #22C55E;
+  color: #22C55E;
+}
+.btn-secondary.auth-btn:hover {
+  background: rgba(34,197,94,0.1);
+}
+
+/* Links */
+.auth-links {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.85rem;
+}
+.auth-links-center {
+  justify-content: center;
+}
+.link-placeholder {
+  color: #64748b;
+  text-decoration: none;
+}
+.link-action {
+  color: #22C55E;
+  text-decoration: underline;
+}
+
+/* Error */
+.auth-error {
+  background: rgba(255,0,0,0.1);
+  color: #b91c1c;
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+/* Ajuste del botón "Inicio" en la pantalla de login/register */
+.auth-background .btn-home {
+  color: #1e293b !important;    /* gris oscuro de la paleta */
+  background: rgba(255,255,255,0.8);
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+.auth-background .btn-home:hover {
+  color: #ffffff !important;
+  background: #22C55E;
+}
