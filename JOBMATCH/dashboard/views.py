@@ -8,6 +8,7 @@ from facebook_business.adobjects.campaign import Campaign
 from .forms import OfertaLaboralForm
 from .models import OfertaLaboral
 from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import login as auth_login
 from .models import Campania
 from .models import Plataforma
@@ -126,7 +127,21 @@ def crear_vacante(request):
     return render(request, 'crear_vacante.html', {'form': form})
 
 def login_view(request):
-    return render(request, 'login.html', {'active_page': 'login'})
+    if request.method == 'POST':
+        login_form = AuthenticationForm(request, data=request.POST)
+        if login_form.is_valid():
+            user = login_form.get_user()
+            auth_login(request, user)
+            return redirect('dashboard')
+    else:
+        login_form = AuthenticationForm()
+
+    register_form = UserCreationForm()
+    return render(request, 'login.html', {
+        'form': login_form,
+        'register_form': register_form,
+        'active_page': 'login'
+    })
 
 
 def campania_activas(request):
@@ -251,3 +266,19 @@ def actualizar_ciudades(request):
     ciudades = City.objects.filter(region_id=departamento_id).values('id', 'name')
     return JsonResponse({'ciudades': list(ciudades)})
 
+def register(request):
+    if request.method == 'POST':
+        register_form = UserCreationForm(request.POST)
+        if register_form.is_valid():
+            user = register_form.save()
+            auth_login(request, user)
+            return redirect('dashboard')
+    else:
+        register_form = UserCreationForm()
+
+    login_form = AuthenticationForm()
+    return render(request, 'login.html', {
+        'form': login_form,
+        'register_form': register_form,
+        'active_page': 'login'
+    })
