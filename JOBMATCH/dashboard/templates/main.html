@@ -1,0 +1,265 @@
+{% load static %}
+<!doctype html>
+<html lang="es">
+  <head>
+    <link rel="icon" href="{% static 'images/logo.png' %}" type="image/x-icon">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Panel de JobMatch AI</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.30.0/tabler-icons.min.css"
+    />
+    <link rel="stylesheet" href="{% static 'dashboard/css/styles.css' %}">
+  </head>
+  <body>
+    <div class="dashboard-container">
+      <nav class="sidebar">
+        <div class="logo-container">
+          <img
+          src="{% static 'images/logo.png' %}"
+          alt="Logo JobMatch AI"
+          class="logo-image"
+        />
+          <h1 class="logo-text">JOBMATCH AI</h1>
+        </div>
+        <ul class="nav-menu">
+          <li class="nav-item {% if active_page == 'panel' %}active{% endif %}">
+            <a href="{% url 'dashboard' %}" class="nav-link">
+              <i class="ti ti-layout-dashboard"></i>
+              <span class="nav-text">Panel</span>
+            </a>
+          </li>
+          <li class="nav-item {% if active_page == 'campania' %}active{% endif %}">
+            <a href="{% url 'campania_activas' %}" class="nav-link">
+                <i class="ti ti-briefcase"></i>
+                <span class="nav-text">Campañas Activas</span>
+            </a>
+        </li>
+          <li class="nav-item {% if active_page == 'vacante' %}active{% endif %}">
+            <a href="{% url 'vacante' %}" class="nav-link">
+                <i class="ti ti-briefcase"></i>
+                <span class="nav-text">Vacante</span>
+            </a>
+        </li>
+          <li class="nav-item {% if active_page == 'create_campaign' %}active{% endif %}">
+              <a href="{% url 'create_campaign' %}" class="nav-link">
+                  <i class="ti ti-api"></i>
+                  <span class="nav-text">Crear campaña</span>
+              </a>
+          </li>
+          <li class="nav-item {% if active_page == 'configuracion' %}active{% endif %}">
+              <i class="ti ti-settings"></i>
+              <span class="nav-text">Configuración</span>
+          </li>
+      </ul>      
+        <div class="logout-container">
+          <form action="{% url 'logout' %}" method="post" class="logout-container" id="logout-form">
+    {% csrf_token %}
+    <a href="#" onclick="document.getElementById('logout-form').submit()" class="nav-link">
+        <i class="ti ti-logout"></i>
+        <span class="nav-text">Cerrar Sesión</span>
+    </a>
+</form>
+        </div>
+      </nav>
+      <main class="main-content">
+        <header class="main-header">
+          <div class="welcome-container">
+            <p class="welcome-text">Hola Magneto,</p>
+            <h2 class="welcome-heading">¡Bienvenido a JobMatch AI!</h2>
+          </div>
+          <div class="search-container">
+            <input type="text" placeholder="Buscar" class="search-input" />
+            <i class="ti ti-search search-icon"></i>
+          </div>
+        </header>
+        <section class="stats-grid">
+          <article class="stats-card">
+            <h3 class="stats-title">Gastado este mes</h3>
+            <p class="stats-value">$682.5</p>
+            <div class="bar-chart">
+              <div class="bar-item"></div>
+              <div class="bar-item"></div>
+              <div class="bar-item"></div>
+              <div class="bar-item"></div>
+              <div class="bar-item active"></div>
+            </div>
+          </article>
+          
+            <article class="stats-card">
+              <h3 class="stats-title">Nuevos formularios</h3>
+              <p class="stats-value">{{ total_vacantes }}</p>
+              <div class="progress-container">
+                <div class="progress-bar">
+                  <div class="progress-fill"></div>
+                </div>
+              </div>
+            </article>
+
+          <article class="stats-card">
+            <h3 class="stats-title">Clics</h3>
+            <p class="stats-value">35,040</p>
+            <div class="progress-container">
+              <div class="progress-bar">
+                <div class="progress-fill"></div>
+              </div>
+            </div>
+          </article>
+
+          <article class="stats-card">
+            <h3 class="stats-title">Actividad Total</h3>
+            <p class="stats-value">5,440,050</p>
+            <div class="progress-container">
+              <div class="progress-bar">
+                <div class="progress-fill"></div>
+              </div>
+            </div>
+          </article>
+        </section>
+
+        <section class="dashboard-grid">
+          <article class="chart-card">
+            <header class="chart-header">
+              <h3 class="chart-title">Gasto Total</h3>
+              <p class="chart-value">$682.5</p>
+            </header>
+            <div class="monthly-chart">
+              <div class="month-column">
+                <div class="month-bar"></div>
+                <p class="month-label">Ene</p>
+              </div>
+              <div class="month-column">
+                <div class="month-bar"></div>
+                <p class="month-label">Feb</p>
+              </div>
+              <div class="month-column">
+                <div class="month-bar"></div>
+                <p class="month-label">Mar</p>
+              </div>
+              <div class="month-column">
+                <div class="month-bar"></div>
+                <p class="month-label">Abr</p>
+              </div>
+              <div class="month-column">
+                <div class="month-bar"></div>
+                <p class="month-label">May</p>
+              </div>
+              <div class="month-column">
+                <div class="month-bar active"></div>
+                <p class="month-label">Jun</p>
+              </div>
+              <div class="month-column">
+                <div class="month-bar"></div>
+                <p class="month-label">Jul</p>
+              </div>
+              <div class="month-column">
+                <div class="month-bar"></div>
+                <p class="month-label">Ago</p>
+              </div>
+              <div class="month-column">
+                <div class="month-bar"></div>
+                <p class="month-label">Sep</p>
+              </div>
+              <div class="month-column">
+                <div class="month-bar"></div>
+                <p class="month-label">Oct</p>
+              </div>
+              <div class="month-column">
+                <div class="month-bar"></div>
+                <p class="month-label">Nov</p>
+              </div>
+              <div class="month-column">
+                <div class="month-bar"></div>
+                <p class="month-label">Dic</p>
+              </div>
+            </div>
+          </article>
+
+          <article class="profile-card">
+            <div class="profile-header">
+              <img
+                src="{% static 'images/logo.png' %}"
+                alt="Perfil"
+                class="profile-image"
+              />
+              <div class="profile-info">
+                <h3 class="profile-name">
+                  magnetoempleos
+                  <!-- Checkmark de verificación -->
+                  <svg 
+                    class="verified-badge" 
+                    viewBox="0 0 40 40" 
+                    width="16" 
+                    height="16" 
+                    fill="#0095f6"
+                    aria-hidden="true"
+                  >
+                    <path d="M19.998 3.094 14.638 0l-2.972 5.15H5.432v6.354L0 14.64 3.094 20 0 25.359l5.432 3.137v5.905h5.975L14.638 40l5.36-3.094L25.358 40l3.232-5.6h6.162v-6.01L40 25.359 36.905 20 40 14.641l-5.248-3.03v-6.46h-6.419L25.358 0l-5.36 3.094Zm7.415 11.225 2.254 2.287-11.43 11.5-6.835-6.93 2.244-2.258 4.587 4.581 9.18-9.18Z"/>
+                  </svg>
+                </h3>
+                <p class="profile-location">Medellín, COL</p>
+              </div>
+            </div>
+
+            <div class="profile-stats">
+              <div class="profile-stat">
+                <p class="stat-value">28</p>
+                <p class="stat-label">Anuncios Activos</p>
+              </div>
+              <div class="profile-stat">
+                <p class="stat-value">160K</p>
+                <p class="stat-label">Seguidores</p>
+              </div>
+              <div class="profile-stat">
+                <p class="stat-value">2.3K</p>
+                <p class="stat-label">Siguiendo</p>
+              </div>
+            </div>
+
+            <div class="notes-container">
+              <div class="notes-header">
+                <h3 class="notes-title">Notas</h3>
+              </div>
+              <ul class="notes-list">
+                <li class="note-item">
+                  📌 Revisar métricas de la última campaña
+                </li>
+                <li class="note-item">
+                  📅 Programar reunión con equipo de marketing
+                </li>
+              </ul>
+              <input
+                type="text"
+                class="notes-input"
+                placeholder="Escribe una nueva nota..."
+              />
+              <button class="btn-primary">
+                Agregar nota
+              </button>
+            </div>
+          </article>
+        </section>
+      </main>
+    </div>
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const navItems = document.querySelectorAll(".nav-item");
+    
+        navItems.forEach(item => {
+          item.addEventListener("click", function () {
+            // Remover la clase 'active' de todos los elementos
+            navItems.forEach(nav => nav.classList.remove("active"));
+    
+            // Agregar la clase 'active' al elemento clickeado
+            this.classList.add("active");
+          });
+        });
+      });
+    </script>    
+  </body>
+</html>

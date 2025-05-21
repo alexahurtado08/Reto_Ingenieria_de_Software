@@ -1,0 +1,359 @@
+{% load static %}
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Crear Campaña - JobMatch AI</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.30.0/tabler-icons.min.css"
+    />
+    <link rel="stylesheet" href="{% static 'dashboard/css/styles.css' %}">
+  </head>
+  <body>
+ <div class="dashboard-container">
+
+    <!-- Barra lateral -->
+    <nav class="sidebar">
+        <div class="logo-container">
+        <img src="{% static 'images/logo.png' %}"
+          alt="Logo JobMatch AI"
+          class="logo-image"
+        />
+          <h1 class="logo-text">JOBMATCH AI</h1>
+        </div>
+        <ul class="nav-menu">
+            <li class="nav-item"><a href="{% url 'dashboard' %}" class="nav-link"><i class="ti ti-layout-dashboard"></i> <span class="nav-text">Panel</span></a></li>
+            <li class="nav-item"><a href="{% url 'campania_activas' %}" class="nav-link"><i class="ti ti-activity"></i> <span class="nav-text">Campañas Activas</span></a></li>
+            <li class="nav-item"><a href="{% url 'vacante' %}" class="nav-link"><i class="ti ti-briefcase"></i> <span class="nav-text">Vacante</span></a></li>
+            <li class="nav-item active"><a href="{% url 'create_campaign' %}" class="nav-link"><i class="ti ti-api"></i> <span class="nav-text">Crear Campaña</span></a></li>
+            <li class="nav-item"><a href="#" class="nav-link"><i class="ti ti-settings"></i> <span class="nav-text">Configuración</span></a></li>
+        </ul>
+        <div class="logout-container">
+            <i class="ti ti-logout"></i>
+            <span class="nav-text">Cerrar Sesión</span>
+        </div>
+    </nav>
+
+      <main class="main-content">
+        {% if messages %}
+        <div class="alert-container">
+            {% for message in messages %}
+            <div class="alert {% if message.tags %}alert-{{ message.tags }}{% endif %}">
+                {{ message }}
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+        
+        <header class="main-header">
+          <div class="welcome-container">
+            <h2 class="welcome-heading">Nueva Campaña Publicitaria</h2>
+            {% if initial_data.title %}
+            <p class="campaign-source">
+              Creando desde vacante: <strong>{{ initial_data.title }}</strong>
+            </p>
+            {% endif %}
+          </div>
+        </header>
+
+        <section class="campaign-form">
+          <form class="campaign-form-container" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            
+            <div class="form-group">
+              <label class="form-label">Nombre de la Campaña</label>
+              <input 
+                type="text" 
+                name="campaign_name" 
+                class="form-input" 
+                value="{{ initial_data.title|default:'' }}"
+                placeholder="Ej: Campaña de Contratación Developers" 
+                required
+              >
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Plataformas</label>
+              <div class="platform-selector">
+                <label class="platform-option">
+                  <input type="checkbox" name="platforms" value="facebook">
+                  <i class="ti ti-brand-facebook"></i>
+                  Facebook
+                </label>
+                <label class="platform-option">
+                  <input type="checkbox" name="platforms" value="instagram">
+                  <i class="ti ti-brand-instagram"></i>
+                  Instagram
+                </label>
+                <label class="platform-option">
+                  <input type="checkbox" name="platforms" value="tiktok">
+                  <i class="ti ti-brand-tiktok"></i>
+                  TikTok
+                </label>
+              </div>
+            </div>
+
+            <!-- Sección de Segmentación -->
+            <div class="form-group">
+              <label class="form-label">Configuración de Segmentación</label>
+              
+              <div class="auto-segment-switch">
+                <label class="switch">
+                  <input type="checkbox" name="auto_segment" id="auto-segment" checked>
+                  <span class="slider"></span>
+                </label>
+                <span>Segmentación Automática (Recomendado)</span>
+              </div>
+
+              <div class="manual-segment-fields" style="display: none;">
+                <div class="grid-2col">
+                  <div class="form-subgroup">
+                    <label class="form-label">Ubicación</label>
+                    <input 
+                      type="text" 
+                      name="location" 
+                      class="form-input"
+                      placeholder="Países o ciudades específicas"
+                    >
+                  </div>
+
+                  <div class="form-subgroup">
+                    <label class="form-label">Rango de Edad</label>
+                    <div class="age-range">
+                      <input type="number" name="min_age" class="form-input" placeholder="18" min="18" max="65">
+                      <span>-</span>
+                      <input type="number" name="max_age" class="form-input" placeholder="65" min="18" max="65">
+                    </div>
+                  </div>
+                </div>
+
+                <div class="form-subgroup">
+                  <label class="form-label">Género</label>
+                  <div class="checkbox-group">
+                    <label class="checkbox-option">
+                      <input type="checkbox" name="gender" value="male">
+                      Masculino
+                    </label>
+                    <label class="checkbox-option">
+                      <input type="checkbox" name="gender" value="female">
+                      Femenino
+                    </label>
+                    <label class="checkbox-option">
+                      <input type="checkbox" name="gender" value="other">
+                      Otros
+                    </label>
+                  </div>
+                </div>
+
+                <div class="form-subgroup">
+                  <label class="form-label">Intereses/Habilidades</label>
+                  <input 
+                    type="text" 
+                    name="interests" 
+                    class="form-input"
+                    placeholder="Ej: Python, Marketing Digital, UX Design"
+                  >
+                  <small class="form-hint">Separar por comas</small>
+                </div>
+
+                <div class="grid-2col">
+                  <div class="form-subgroup">
+                    <label class="form-label">Nivel Educativo</label>
+                    <select name="education" class="form-select">
+                      <option value="">Cualquiera</option>
+                      <option value="high_school">Secundaria</option>
+                      <option value="bachelor">Universitario</option>
+                      <option value="master">Maestría</option>
+                      <option value="phd">Doctorado</option>
+                    </select>
+                  </div>
+
+                  <div class="form-subgroup">
+                    <label class="form-label">Experiencia</label>
+                    <div class="checkbox-group">
+                      <label class="checkbox-option">
+                        <input type="radio" name="experience" value="0-2">
+                        0-2 años
+                      </label>
+                      <label class="checkbox-option">
+                        <input type="radio" name="experience" value="3-5">
+                        3-5 años
+                      </label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="segment-preview">
+                <h4>Audiencia Estimada:</h4>
+                <div class="audience-metrics">
+                  <div class="metric">
+                    <i class="ti ti-users"></i>
+                    <span>~ 250,000 personas</span>
+                  </div>
+                  <div class="metric">
+                    <i class="ti ti-target"></i>
+                    <span>Radio de alcance: 150km</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="grid-2col">
+              <div class="form-group">
+                <label class="form-label">Presupuesto (USD)</label>
+                <input 
+                  type="number" 
+                  name="budget" 
+                  class="form-input" 
+                  id="campaign-budget"
+                  placeholder="$50.00" 
+                  min="50" 
+                  step="50" 
+                  required
+                >
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Programación</label>
+              <input 
+                type="datetime-local" 
+                name="schedule" 
+                class="form-input" 
+                required
+              >
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Contenido del Anuncio</label>
+              <textarea 
+                class="form-textarea" 
+                name="ad_content" 
+                rows="6" 
+                placeholder="Escribe tu anuncio..." 
+                required
+              >{{ initial_data.description|default:'' }}</textarea>
+              
+              <div class="content-optimizer">
+                <button type="button" class="btn-ai-optimize" onclick="optimizeContent()">
+                  <i class="ti ti-sparkles"></i>
+                  Optimizar Texto con IA
+                </button>
+                <div class="optimization-score">
+                  Puntaje SEO: <span id="seo-score">78</span>/100
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Multimedia del Anuncio</label>
+              <div class="file-upload">
+                <input 
+                  type="file" 
+                  id="media-upload" 
+                  name="media_files" 
+                  hidden 
+                  multiple
+                  accept="image/*, video/*"
+                >
+                <label for="media-upload" class="btn-upload">
+                  <i class="ti ti-upload"></i>
+                  Subir archivos (imágenes/videos)
+                </label>
+                <span class="file-names">No se seleccionaron archivos</span>
+              </div>
+            </div>
+
+            <input type="hidden" name="vacancy_id" value="{{ initial_data.id }}">
+            <input type="hidden" name="api_params" id="api-params">
+
+            <div class="form-actions">
+              <button type="submit" class="btn-primary">
+                <i class="ti ti-rocket"></i>
+                Lanzar Campaña
+              </button>
+              <a href="{% url 'vacante' %}" class="btn-secondary">
+                <i class="ti ti-x"></i>
+                Cancelar
+              </a>
+            </div>
+          </form>
+        </section>
+      </main>
+    </div>
+
+    <script>
+      // Manejo de archivos
+      document.getElementById('media-upload').addEventListener('change', function(e) {
+        const files = e.target.files;
+        const fileNameContainer = document.querySelector('.file-names');
+        const fileNames = Array.from(files).map(file => file.name).join(', ');
+        
+        fileNameContainer.textContent = files.length > 0 
+          ? `${files.length} archivo(s) seleccionado(s): ${fileNames}` 
+          : 'No se seleccionaron archivos';
+      });
+
+      // Segmentación Automática
+      document.getElementById('auto-segment').addEventListener('change', function(e) {
+        const manualFields = document.querySelector('.manual-segment-fields');
+        manualFields.style.display = e.target.checked ? 'none' : 'block';
+        
+        if(e.target.checked && "{{ initial_data }}") {
+          const description = "{{ initial_data.description }}";
+          const keywords = description.match(/\b(\w+)\b/g)?.slice(0, 3) || [];
+          document.querySelector('[name="interests"]').value = keywords.join(', ');
+        }
+      });
+
+      // Presupuesto dinámico por plataformas seleccionadas
+      document.querySelectorAll('input[name="platforms"]').forEach(input => {
+        input.addEventListener('change', function() {
+          const budgetInput = document.getElementById('campaign-budget');
+          const selectedPlatforms = Array.from(document.querySelectorAll('input[name="platforms"]:checked')).map(input => input.value);
+          const platformBudgets = {facebook: 50, instagram: 50, tiktok: 75};
+          const minBudget = selectedPlatforms.reduce((min, platform) => {
+            return Math.max(min, platformBudgets[platform] || 0);
+          }, 0);
+          budgetInput.min = minBudget;
+          budgetInput.placeholder = `Mínimo $${minBudget}`;
+        });
+      });
+      // Optimización de contenido
+      function optimizeContent() {
+        const content = document.querySelector('[name="ad_content"]');
+        const scoreElement = document.getElementById('seo-score');
+        
+        // Simulación de optimización
+        content.value += "\n\n¡Oportunidad única! Postula ahora.";
+        scoreElement.textContent = '92';
+        
+        // Animación de feedback
+        scoreElement.parentElement.style.color = '#2ecc71';
+        setTimeout(() => {
+          scoreElement.parentElement.style.color = '#7c7c7c';
+        }, 1000);
+      }
+
+      // Inicialización
+      window.addEventListener('DOMContentLoaded', () => {
+        {% if initial_data.title %}
+          document.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
+            checkbox.checked = true;
+          });
+          document.getElementById('auto-segment').dispatchEvent(new Event('change'));
+        {% endif %}
+        
+        // Inicializar presupuesto
+        document.getElementById('api-type').dispatchEvent(new Event('change'));
+      });
+    </script>
+  </body>
+</html>

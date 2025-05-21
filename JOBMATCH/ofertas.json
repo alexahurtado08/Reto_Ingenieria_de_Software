@@ -1,0 +1,93 @@
+[
+    {
+      "model": "dashboard.ofertalaboral",
+      "fields": {
+        "cargo": "Desarrollador Backend",
+        "salario": "4500000.00",
+        "ubicacion": "Bogotá",
+        "critica": true
+      }
+    },
+    {
+      "model": "dashboard.ofertalaboral",
+      "fields": {
+        "cargo": "Ingeniero de Sistemas",
+        "salario": "5200000.00",
+        "ubicacion": "Medellín",
+        "critica": false
+      }
+    },
+    {
+      "model": "dashboard.ofertalaboral",
+      "fields": {
+        "cargo": "Analista de Datos",
+        "salario": "4000000.00",
+        "ubicacion": "Cali",
+        "critica": true
+      }
+    },
+    {
+      "model": "dashboard.ofertalaboral",
+      "fields": {
+        "cargo": "Diseñador UX/UI",
+        "salario": "3800000.00",
+        "ubicacion": "Barranquilla",
+        "critica": false
+      }
+    },
+    {
+      "model": "dashboard.ofertalaboral",
+      "fields": {
+        "cargo": "Scrum Master",
+        "salario": "6000000.00",
+        "ubicacion": "Bucaramanga",
+        "critica": true
+      }
+    },
+    {
+      "model": "dashboard.ofertalaboral",
+      "fields": {
+        "cargo": "Tester QA",
+        "salario": "3500000.00",
+        "ubicacion": "Manizales",
+        "critica": false
+      }
+    },
+    {
+      "model": "dashboard.ofertalaboral",
+      "fields": {
+        "cargo": "Soporte Técnico",
+        "salario": "2800000.00",
+        "ubicacion": "Pereira",
+        "critica": false
+      }
+    },
+    {
+      "model": "dashboard.ofertalaboral",
+      "fields": {
+        "cargo": "DevOps Engineer",
+        "salario": "6500000.00",
+        "ubicacion": "Cartagena",
+        "critica": true
+      }
+    },
+    {
+      "model": "dashboard.ofertalaboral",
+      "fields": {
+        "cargo": "Arquitecto de Software",
+        "salario": "8000000.00",
+        "ubicacion": "Santa Marta",
+        "critica": true
+      }
+    },
+    {
+      "model": "dashboard.ofertalaboral",
+      "fields": {
+        "cargo": "Desarrollador Full Stack",
+        "salario": "5500000.00",
+        "ubicacion": "Cúcuta",
+        "critica": false
+      }
+    }
+  ]
+  

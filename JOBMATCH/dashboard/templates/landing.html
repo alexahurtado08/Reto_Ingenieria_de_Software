@@ -1,0 +1,16 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Bienvenido a JobMatch AI</title>
+  <link rel="stylesheet" href="{% static 'dashboard/css/styles.css' %}">
+</head>
+<body>
+  <div class="landing-container">
+    <h1>Bienvenido a JobMatch AI</h1>
+    <p>Tu plataforma inteligente para encontrar empleo</p>
+    <a href="{% url 'login' %}" class="btn-primary">Iniciar sesión</a>
+  </div>
+</body>
+</html>

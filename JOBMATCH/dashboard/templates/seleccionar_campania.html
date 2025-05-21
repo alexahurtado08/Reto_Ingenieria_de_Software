@@ -1,0 +1,64 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Seleccionar Campaña - JobMatch AI</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.30.0/tabler-icons.min.css" />
+  <link rel="stylesheet" href="{% static 'dashboard/css/styles.css' %}">
+</head>
+<body>
+  <div class="dashboard-container">
+    <nav class="sidebar">
+      <div class="logo-container">
+        <img src="{% static 'images/logo.png' %}" alt="Logo JobMatch AI" class="logo-image" />
+        <h1 class="logo-text">JOBMATCH AI</h1>
+      </div>
+      <ul class="nav-menu">
+        <li class="nav-item"><a href="{% url 'dashboard' %}" class="nav-link"><i class="ti ti-layout-dashboard"></i><span class="nav-text">Panel</span></a></li>
+        <li class="nav-item active"><a href="#" class="nav-link"><i class="ti ti-target-arrow"></i><span class="nav-text">Seleccionar Campaña</span></a></li>
+        <li class="nav-item"><a href="{% url 'create_campaign' %}" class="nav-link"><i class="ti ti-plus"></i><span class="nav-text">Crear Campaña</span></a></li>
+      </ul>
+      <div class="logout-container"><i class="ti ti-logout"></i><span class="nav-text">Cerrar Sesión</span></div>
+    </nav>
+
+    <main class="main-content">
+      <header class="main-header">
+        <div class="welcome-container">
+          <h2 class="welcome-heading">Selecciona una Campaña Activa</h2>
+          <p class="campaign-source">Publicar anuncio en una campaña existente</p>
+        </div>
+      </header>
+
+      <section class="campaign-form">
+        <form class="campaign-form-container" method="POST">
+          {% csrf_token %}
+
+          <div class="form-group">
+            <label class="form-label">Campaña Activa</label>
+            <select name="campania_id" class="form-input" required>
+              <option value="" disabled selected>Selecciona una campaña</option>
+              {% for campania in campañas %}
+                <option value="{{ campania.id }}">{{ campania.nombre }}</option>
+              {% endfor %}
+            </select>
+          </div>
+
+          <div class="form-actions">
+            <button type="submit" class="btn-primary">
+              <i class="ti ti-megaphone"></i>
+              Publicar Anuncio
+            </button>
+            <a href="{% url 'dashboard' %}" class="btn-secondary">
+              <i class="ti ti-x"></i>
+              Cancelar
+            </a>
+          </div>
+        </form>
+      </section>
+    </main>
+  </div>
+</body>
+</html>

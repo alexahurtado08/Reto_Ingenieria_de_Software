@@ -1,0 +1,137 @@
+{% load static %}
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Campañas Activas - JobMatch AI</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.30.0/tabler-icons.min.css">
+  <link rel="stylesheet" href="{% static 'dashboard/css/styles.css' %}">
+</head>
+<body>
+  <div class="dashboard-container">
+
+    <!-- Barra lateral -->
+    <nav class="sidebar">
+        <div class="logo-container">
+        <img src="{% static 'images/logo.png' %}"
+          alt="Logo JobMatch AI"
+          class="logo-image"
+        />
+          <h1 class="logo-text">JOBMATCH AI</h1>
+        </div>
+      <ul class="nav-menu">
+          <li class="nav-item"><a href="{% url 'dashboard' %}" class="nav-link"><i class="ti ti-layout-dashboard"></i> <span class="nav-text">Panel</span></a></li>
+          <li class="nav-item active"><a href="{% url 'campania_activas' %}" class="nav-link"><i class="ti ti-activity"></i> <span class="nav-text">Campañas Activas</span></a></li>
+          <li class="nav-item"><a href="{% url 'vacante' %}" class="nav-link"><i class="ti ti-briefcase"></i> <span class="nav-text">Vacante</span></a></li>
+          <li class="nav-item"><a href="{% url 'create_campaign' %}" class="nav-link"><i class="ti ti-api"></i> <span class="nav-text">Crear Campaña</span></a></li>
+          <li class="nav-item"><a href="#" class="nav-link"><i class="ti ti-settings"></i> <span class="nav-text">Configuración</span></a></li>
+      </ul>
+      <div class="logout-container">
+          <i class="ti ti-logout"></i>
+          <span class="nav-text">Cerrar Sesión</span>
+      </div>
+    </nav>
+
+    <!-- Contenido principal -->
+    <main class="main-content">
+      <header class="main-header">
+        <div class="welcome-container">
+          <h2 class="welcome-heading">Campañas Activas</h2>
+        </div>
+      </header>
+      <div style="margin-bottom: 20px;">
+        <a href="{% url 'seleccionar_campania' %}" class="btn btn-publicar">
+          <i class="ti ti-upload"></i> Publicar anuncio
+        </a>
+      </div>
+      
+      
+
+      <section class="campaigns">
+        {% if campañas %}
+          <div class="campaign-cards-container">
+            {% for campania in campañas %}
+              <div class="campaign-card">
+                <div class="card-header">
+                  <h3 class="card-title">{{ campania.nombre }}</h3>
+                  <span class="badge estado-{{ campania.estado }}">
+                    {{ campania.estado|capfirst }}
+                  </span>
+                </div>
+
+                <div class="card-body">
+                  {% if campania.OfertaLaboral %}
+                    <div class="info-row">
+                      <i class="ti ti-briefcase"></i>
+                      <span><strong>Oferta:</strong> {{ campania.OfertaLaboral.cargo }} – {{ campania.OfertaLaboral.ubicacion }}</span>
+                    </div>
+                  {% else %}
+                    <div class="info-row">
+                      <i class="ti ti-briefcase-off"></i>
+                      <span><strong>Oferta:</strong> <em>No disponible</em></span>
+                    </div>
+                  {% endif %}
+
+                  <div class="info-row">
+                    <i class="ti ti-text-caption"></i>
+                    <span><strong>Contenido:</strong> {{ campania.contenido }}</span>
+                  </div>
+
+                  <div class="info-row">
+                    <i class="ti ti-cash"></i>
+                    <span><strong>Presupuesto:</strong> ${{ campania.presupuesto }}</span>
+                  </div>
+
+                  <div class="info-row">
+                    <i class="ti ti-calendar-event"></i>
+                    <span><strong>Inicio:</strong> {{ campania.fecha_inicio|date:"d/m/Y H:i" }}</span>
+                  </div>
+
+                  <div class="info-row">
+                    <i class="ti ti-share"></i>
+                    <strong>Plataformas:</strong>
+                    {% for plataforma in campania.plataformas.all %}
+                      <span class="platform-chip">{{ plataforma.nombre }}</span>
+                    {% empty %}
+                      <em>No hay plataformas asignadas</em>
+                    {% endfor %}
+                  </div>
+
+                  <!-- Acciones -->
+                  <div class="card-actions">
+                    <a href="{% url 'editar_campania' campania.id %}" class="btn btn-edit">
+                      <i class="ti ti-edit"></i> Editar
+                    </a>
+
+                    {% if campania.estado == "activa" %}
+                      <a href="{% url 'pausar_campania' campania.id %}" class="btn btn-pause">
+                        <i class="ti ti-player-pause"></i> Pausar
+                      </a>
+                      <a href="{% url 'finalizar_campania' campania.id %}" class="btn btn-delete">
+                        <i class="ti ti-circle-x"></i> Finalizar
+                      </a>
+                    {% elif campania.estado == "pausada" %}
+                      <a href="{% url 'reactivar_campania' campania.id %}" class="btn btn-play">
+                        <i class="ti ti-player-play"></i> Reanudar
+                      </a>
+                      <a href="{% url 'finalizar_campania' campania.id %}" class="btn btn-delete">
+                        <i class="ti ti-circle-x"></i> Finalizar
+                      </a>
+                    {% endif %}
+                  </div>
+
+                </div>
+              </div>
+            {% endfor %}
+          </div>
+        {% else %}
+          <p class="no-campaigns">No hay campañas activas.</p>
+        {% endif %}
+      </section>
+
+    </main>
+
+  </div>
+</body>
+</html>

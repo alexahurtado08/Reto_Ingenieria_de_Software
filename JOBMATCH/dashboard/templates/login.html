@@ -1,0 +1,199 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Acceso – JobMatch AI</title>
+
+    <!-- Favicon -->
+    <link
+      rel="icon"
+      href="{% static 'images/logo.png' %}"
+      type="image/x-icon"
+    />
+
+    <!-- Fuentes e iconos -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.30.0/tabler-icons.min.css"
+    />
+
+    <!-- Tu CSS principal -->
+    <link
+      rel="stylesheet"
+      href="{% static 'dashboard/css/styles.css' %}"
+      type="text/css"
+    />
+  </head>
+  <body class="auth-background">
+    <!-- Botón Inicio -->
+    <a href="{% url 'dashboard' %}" class="btn-home">
+      <i class="ti ti-home"></i> Inicio
+    </a>
+
+    <div class="card-container">
+      <div id="cardInner" class="card-inner">
+        <!-- ======= LOGIN ======= -->
+        <div class="card-face face-front">
+          <img
+            src="{% static 'images/logo.png' %}"
+            alt="Logo JobMatch AI"
+            class="auth-logo"
+          />
+          <h1 class="auth-title">Bienvenido a JobMatch AI</h1>
+          <p class="auth-subtitle">Inicia sesión para continuar</p>
+
+          <form method="post" class="auth-form">
+            {% csrf_token %} {% if form.errors %}
+            <div class="auth-error">
+              <i class="ti ti-alert-circle"></i>
+              Usuario o contraseña incorrectos.
+            </div>
+            {% endif %}
+
+            <label class="form-label" for="id_username"
+              >Correo electrónico</label
+            >
+            <div class="input-icon">
+              <i class="ti ti-mail"></i>
+              <input
+                type="email"
+                name="username"
+                id="id_username"
+                required
+                placeholder="tu@email.com"
+              />
+            </div>
+
+            <label class="form-label" for="id_password">Contraseña</label>
+            <div class="input-icon">
+              <i class="ti ti-lock"></i>
+              <input
+                type="password"
+                name="password"
+                id="id_password"
+                required
+                placeholder="••••••••"
+              />
+              <i id="togglePassword" class="ti ti-eye show-password"></i>
+            </div>
+
+            <button type="submit" class="btn-primary auth-btn">
+              <i class="ti ti-login"></i> Iniciar sesión
+            </button>
+
+            <div class="auth-links">
+              <a href="#" class="link-placeholder">¿Olvidaste tu contraseña?</a>
+              <a href="#" id="flipToRegister" class="link-action"
+                >Crear cuenta</a
+              >
+            </div>
+          </form>
+        </div>
+
+        <!-- ======= REGISTER ======= -->
+        <div class="card-face back">
+          <img
+            src="{% static 'images/logo.png' %}"
+            alt="Logo JobMatch AI"
+            class="auth-logo"
+          />
+          <h1 class="auth-title">Únete a JobMatch AI</h1>
+          <p class="auth-subtitle">Crea tu cuenta gratis</p>
+
+          <form method="post" action="{% url 'register' %}" class="auth-form">
+            {% csrf_token %} {% if register_form.errors %}
+            <div class="auth-error">
+              <i class="ti ti-alert-circle"></i>
+              Revisa los datos ingresados.
+            </div>
+            {% endif %}
+
+            <label class="form-label" for="id_email">Correo electrónico</label>
+            <div class="input-icon">
+              <i class="ti ti-mail"></i>
+              <input
+                type="email"
+                name="email"
+                id="id_email"
+                required
+                placeholder="tu@email.com"
+              />
+            </div>
+
+            <label class="form-label" for="id_password1">Contraseña</label>
+            <div class="input-icon">
+              <i class="ti ti-lock"></i>
+              <input
+                type="password"
+                name="password1"
+                id="id_password1"
+                required
+                placeholder="••••••••"
+              />
+            </div>
+
+            <label class="form-label" for="id_password2"
+              >Confirmar contraseña</label
+            >
+            <div class="input-icon">
+              <i class="ti ti-lock"></i>
+              <input
+                type="password"
+                name="password2"
+                id="id_password2"
+                required
+                placeholder="••••••••"
+              />
+            </div>
+
+            <button type="submit" class="btn-secondary auth-btn">
+              <i class="ti ti-user-plus"></i> Crear cuenta
+            </button>
+
+            <div class="auth-links auth-links-center">
+              <a href="#" id="flipToLogin" class="link-action">
+                ¿Ya tienes cuenta? Inicia sesión
+              </a>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      // Toggle password visibility
+      document
+        .getElementById("togglePassword")
+        .addEventListener("click", () => {
+          const pwd = document.getElementById("id_password");
+          const type = pwd.type === "password" ? "text" : "password";
+          pwd.type = type;
+          document
+            .getElementById("togglePassword")
+            .classList.toggle("ti-eye-off", type === "text");
+          document
+            .getElementById("togglePassword")
+            .classList.toggle("ti-eye", type === "password");
+        });
+
+      // Flip card
+      const card = document.getElementById("cardInner");
+      document
+        .getElementById("flipToRegister")
+        .addEventListener("click", (e) => {
+          e.preventDefault();
+          card.classList.add("flipped");
+        });
+      document.getElementById("flipToLogin").addEventListener("click", (e) => {
+        e.preventDefault();
+        card.classList.remove("flipped");
+      });
+    </script>
+  </body>
+</html>
